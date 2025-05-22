@@ -1,0 +1,553 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Simplified Phase 2: CloudFormation template for AWS Transform with existing IAM Identity Center instance'
+
+Parameters:
+  AccountNumber:
+    Type: String
+    Description: Your AWS account number
+    AllowedPattern: '[0-9]{12}'
+    ConstraintDescription: Must be a valid 12-digit AWS account number
+    Default: "261169764245"
+  
+  AdminGroupName:
+    Type: String
+    Default: AWSTransformAdmins
+    Description: Name for the AWS Transform administrators group in IAM Identity Center
+  
+  UserGroupName:
+    Type: String
+    Default: AWSTransformUsers
+    Description: Name for the AWS Transform users group in IAM Identity Center
+    
+  AdminEmailAddress:
+    Type: String
+    Description: Email address for the admin user
+    AllowedPattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    ConstraintDescription: Must be a valid email address
+    Default: "pnavkmr@amazon.com"
+    
+  AdminFirstName:
+    Type: String
+    Default: Admin
+    Description: First name for the admin user
+    
+  AdminLastName:
+    Type: String
+    Default: User
+    Description: Last name for the admin user
+    
+  IdentityCenterInstanceId:
+    Type: String
+    Description: ID of your existing IAM Identity Center instance
+    Default: "ssoins-7223af279f1ade2d"
+    
+  IdentityStoreId:
+    Type: String
+    Description: ID of the Identity Store associated with your IAM Identity Center instance
+    # You'll need to provide this value when deploying
+
+Resources:
+  # User Policy for AWS Transform
+  TransformUserPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Allows users to view their own permissions for AWS Transform
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: ViewOwnUserInfo
+            Effect: Allow
+            Action:
+              - iam:GetUserPolicy
+              - iam:ListGroupsForUser
+              - iam:ListAttachedUserPolicies
+              - iam:ListUserPolicies
+              - iam:GetUser
+            Resource: "arn:aws:iam::*:user/*"
+          - Sid: NavigateInConsole
+            Effect: Allow
+            Action:
+              - iam:GetGroupPolicy
+              - iam:GetPolicyVersion
+              - iam:GetPolicy
+              - iam:ListAttachedGroupPolicies
+              - iam:ListGroupPolicies
+              - iam:ListPolicyVersions
+              - iam:ListPolicies
+              - iam:ListUsers
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - transform:ListProfiles
+            Resource: '*'
+
+  # Admin Policy for AWS Transform
+  TransformAdminPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Allows administrators to manage AWS Transform
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          # Accept connector request permissions
+          - Effect: Allow
+            Action:
+              - transform:GetConnector
+              - transform:AssociateConnectorResource
+              - transform:RejectConnector
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - s3:GetBucketPublicAccessBlock
+              - s3:GetAccountPublicAccessBlock
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - iam:CreateRole
+              - iam:AttachRolePolicy
+              - iam:PassRole
+            Resource: !Sub 'arn:aws:iam::${AccountNumber}:role/service-role/AWSTransform-*'
+          - Effect: Allow
+            Action:
+              - iam:CreatePolicy
+            Resource: !Sub 'arn:aws:iam::${AccountNumber}:policy/service-role/AWSTransform-*'
+          
+          # Manage IAM Identity Center users permissions
+          - Effect: Allow
+            Action:
+              - transform:ListProfiles
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - organizations:ListAWSServiceAccessForOrganization
+              - organizations:DescribeOrganization
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - sso:ListApplications
+              - sso:ListInstances
+              - sso:DescribeRegisteredRegions
+              - sso:GetSharedSsoConfiguration
+              - sso:DescribeInstance
+              - sso:DescribeApplication
+              - sso:GetSSOStatus
+              - sso:CreateApplicationAssignment
+              - sso:DeleteApplicationAssignment
+              - sso:ListApplicationAssignments
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - sso-directory:CreateUser
+              - sso-directory:DescribeUsers
+              - sso-directory:DescribeGroups
+              - sso-directory:SearchGroups
+              - sso-directory:SearchUsers
+              - sso-directory:DescribeGroup
+              - sso-directory:DescribeUser
+              - sso-directory:DescribeDirectory
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - identitystore:CreateUser
+              - identitystore:ListUsers
+              - identitystore:ListGroups
+            Resource: '*'
+          
+          # Enable AWS Transform permissions
+          - Effect: Allow
+            Action:
+              - sso:ListInstances
+              - sso:CreateInstance
+              - sso:CreateApplication
+              - sso:PutApplicationAuthenticationMethod
+              - sso:PutApplicationGrant
+              - sso:PutApplicationAssignmentConfiguration
+              - sso:ListApplications
+              - sso:GetSharedSsoConfiguration
+              - sso:DescribeInstance
+              - sso:PutApplicationAccessScope
+              - sso:DescribeApplication
+              - sso:DeleteApplication
+              - sso:UpdateApplication
+              - sso:DescribeRegisteredRegions
+              - sso:GetSSOStatus
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - sso-directory:GetUserPoolInfo
+              - sso-directory:DescribeUsers
+              - sso-directory:DescribeGroups
+              - sso-directory:SearchGroups
+              - sso-directory:SearchUsers
+              - sso-directory:DescribeDirectory
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - organizations:DescribeAccount
+              - organizations:DescribeOrganization
+              - organizations:ListAWSServiceAccessForOrganization
+              - organizations:DisableAWSServiceAccess
+              - organizations:EnableAWSServiceAccess
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - kms:ListAliases
+              - kms:CreateGrant
+              - kms:Encrypt
+              - kms:Decrypt
+              - kms:GenerateDataKey*
+              - kms:RetireGrant
+              - kms:DescribeKey
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - iam:CreateServiceLinkedRole
+            Resource: 'arn:aws:iam::*:role/aws-service-role/transform.amazonaws.com/AWSServiceRoleForAWSTransform'
+          - Effect: Allow
+            Action:
+              - transform:UpdateProfile
+              - transform:ListProfiles
+              - transform:CreateProfile
+              - transform:DeleteProfile
+            Resource: '*'
+                
+  # AWS Transform Service Role
+  TransformServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: transform.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Ref TransformAdminPolicy
+      Path: /service-role/
+      RoleName: !Sub 'AWSTransform-ServiceRole-${AWS::Region}'
+
+  # IAM Role for Identity Center Lambda functions
+  IdentityCenterLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: IdentityStoreAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - identitystore:CreateUser
+                  - identitystore:CreateGroup
+                  - identitystore:CreateGroupMembership
+                  - identitystore:ListUsers
+                  - identitystore:ListGroups
+                  - identitystore:DescribeUser
+                  - identitystore:DescribeGroup
+                Resource: '*'
+
+  # Lambda function to create Identity Center Group
+  CreateIdentityCenterGroupFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Runtime: python3.9
+      Handler: index.handler
+      Role: !GetAtt IdentityCenterLambdaRole.Arn
+      Code:
+        ZipFile: |
+          import boto3
+          import cfnresponse
+          import logging
+          import time
+          
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+          
+          def handler(event, context):
+            logger.info(f"Received event: {event}")
+            
+            if event['RequestType'] in ['Create', 'Update']:
+              try:
+                identity_store_id = event['ResourceProperties']['IdentityStoreId']
+                display_name = event['ResourceProperties']['DisplayName']
+                description = event['ResourceProperties'].get('Description', '')
+                
+                # Add retry logic for creating groups
+                max_retries = 3
+                retry_count = 0
+                success = False
+                
+                while retry_count < max_retries and not success:
+                  try:
+                    identity_store = boto3.client('identitystore')
+                    response = identity_store.create_group(
+                      IdentityStoreId=identity_store_id,
+                      DisplayName=display_name,
+                      Description=description
+                    )
+                    
+                    group_id = response['GroupId']
+                    logger.info(f"Created group {display_name} with ID {group_id}")
+                    success = True
+                    
+                    cfnresponse.send(event, context, cfnresponse.SUCCESS, 
+                                    {'GroupId': group_id, 'DisplayName': display_name})
+                  except Exception as e:
+                    logger.warning(f"Error creating group (retry {retry_count}): {str(e)}")
+                    retry_count += 1
+                    if retry_count < max_retries:
+                      time.sleep(10 * retry_count)  # Exponential backoff
+                    else:
+                      logger.error(f"Failed to create group after {max_retries} retries")
+                      cfnresponse.send(event, context, cfnresponse.FAILED, {'Error': str(e)})
+              except Exception as e:
+                logger.error(f"Error in handler: {str(e)}")
+                cfnresponse.send(event, context, cfnresponse.FAILED, {'Error': str(e)})
+            elif event['RequestType'] == 'Delete':
+              # Identity Center doesn't support deleting groups through API yet
+              # Just return success for now
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+            else:
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+      Timeout: 60
+      
+  # Lambda function to create Identity Center User
+  CreateIdentityCenterUserFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Runtime: python3.9
+      Handler: index.handler
+      Role: !GetAtt IdentityCenterLambdaRole.Arn
+      Code:
+        ZipFile: |
+          import boto3
+          import cfnresponse
+          import logging
+          import time
+          
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+          
+          def handler(event, context):
+            logger.info(f"Received event: {event}")
+            
+            if event['RequestType'] in ['Create', 'Update']:
+              try:
+                identity_store_id = event['ResourceProperties']['IdentityStoreId']
+                user_name = event['ResourceProperties']['UserName']
+                email = event['ResourceProperties']['Email']
+                first_name = event['ResourceProperties']['FirstName']
+                last_name = event['ResourceProperties']['LastName']
+                
+                # Add retry logic for creating users
+                max_retries = 3
+                retry_count = 0
+                success = False
+                
+                while retry_count < max_retries and not success:
+                  try:
+                    identity_store = boto3.client('identitystore')
+                    response = identity_store.create_user(
+                      IdentityStoreId=identity_store_id,
+                      UserName=user_name,
+                      Name={
+                        'GivenName': first_name,
+                        'FamilyName': last_name
+                      },
+                      DisplayName=f"{first_name} {last_name}",
+                      Emails=[
+                        {
+                          'Value': email,
+                          'Type': 'work',
+                          'Primary': True
+                        }
+                      ]
+                    )
+                    
+                    user_id = response['UserId']
+                    logger.info(f"Created user {user_name} with ID {user_id}")
+                    success = True
+                    
+                    cfnresponse.send(event, context, cfnresponse.SUCCESS, 
+                                    {'UserId': user_id, 'UserName': user_name})
+                  except Exception as e:
+                    logger.warning(f"Error creating user (retry {retry_count}): {str(e)}")
+                    retry_count += 1
+                    if retry_count < max_retries:
+                      time.sleep(10 * retry_count)  # Exponential backoff
+                    else:
+                      logger.error(f"Failed to create user after {max_retries} retries")
+                      cfnresponse.send(event, context, cfnresponse.FAILED, {'Error': str(e)})
+              except Exception as e:
+                logger.error(f"Error in handler: {str(e)}")
+                cfnresponse.send(event, context, cfnresponse.FAILED, {'Error': str(e)})
+            elif event['RequestType'] == 'Delete':
+              # Identity Center doesn't support deleting users through API yet
+              # Just return success for now
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+            else:
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+      Timeout: 60
+      
+  # Lambda function to add user to group
+  AddUserToGroupFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Runtime: python3.9
+      Handler: index.handler
+      Role: !GetAtt IdentityCenterLambdaRole.Arn
+      Code:
+        ZipFile: |
+          import boto3
+          import cfnresponse
+          import logging
+          import time
+          
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+          
+          def handler(event, context):
+            logger.info(f"Received event: {event}")
+            
+            if event['RequestType'] in ['Create', 'Update']:
+              try:
+                identity_store_id = event['ResourceProperties']['IdentityStoreId']
+                group_id = event['ResourceProperties']['GroupId']
+                user_id = event['ResourceProperties']['UserId']
+                
+                # Add retry logic for adding user to group
+                max_retries = 3
+                retry_count = 0
+                success = False
+                
+                while retry_count < max_retries and not success:
+                  try:
+                    identity_store = boto3.client('identitystore')
+                    response = identity_store.create_group_membership(
+                      IdentityStoreId=identity_store_id,
+                      GroupId=group_id,
+                      MemberId={
+                        'UserId': user_id
+                      }
+                    )
+                    
+                    membership_id = response['MembershipId']
+                    logger.info(f"Added user {user_id} to group {group_id} with membership ID {membership_id}")
+                    success = True
+                    
+                    cfnresponse.send(event, context, cfnresponse.SUCCESS, 
+                                    {'MembershipId': membership_id})
+                  except Exception as e:
+                    logger.warning(f"Error adding user to group (retry {retry_count}): {str(e)}")
+                    retry_count += 1
+                    if retry_count < max_retries:
+                      time.sleep(10 * retry_count)  # Exponential backoff
+                    else:
+                      logger.error(f"Failed to add user to group after {max_retries} retries")
+                      cfnresponse.send(event, context, cfnresponse.FAILED, {'Error': str(e)})
+              except Exception as e:
+                logger.error(f"Error in handler: {str(e)}")
+                cfnresponse.send(event, context, cfnresponse.FAILED, {'Error': str(e)})
+            elif event['RequestType'] == 'Delete':
+              # Just return success for now
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+            else:
+              cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+      Timeout: 60
+
+  # Create IAM Identity Center Groups
+  AdminGroup:
+    Type: Custom::IdentityCenterGroup
+    Properties:
+      ServiceToken: !GetAtt CreateIdentityCenterGroupFunction.Arn
+      IdentityStoreId: !Ref IdentityStoreId
+      DisplayName: !Ref AdminGroupName
+      Description: "Administrators group for AWS Transform"
+
+  UserGroup:
+    Type: Custom::IdentityCenterGroup
+    Properties:
+      ServiceToken: !GetAtt CreateIdentityCenterGroupFunction.Arn
+      IdentityStoreId: !Ref IdentityStoreId
+      DisplayName: !Ref UserGroupName
+      Description: "Users group for AWS Transform"
+      
+  # Create Admin User
+  AdminUser:
+    Type: Custom::IdentityCenterUser
+    Properties:
+      ServiceToken: !GetAtt CreateIdentityCenterUserFunction.Arn
+      IdentityStoreId: !Ref IdentityStoreId
+      UserName: !Ref AdminEmailAddress
+      Email: !Ref AdminEmailAddress
+      FirstName: !Ref AdminFirstName
+      LastName: !Ref AdminLastName
+      
+  # Add Admin User to Admin Group
+  AdminUserGroupMembership:
+    Type: Custom::IdentityCenterGroupMembership
+    DependsOn: [AdminUser, AdminGroup]
+    Properties:
+      ServiceToken: !GetAtt AddUserToGroupFunction.Arn
+      IdentityStoreId: !Ref IdentityStoreId
+      GroupId: !GetAtt AdminGroup.GroupId
+      UserId: !GetAtt AdminUser.UserId
+
+Outputs:
+  IdentityCenterInstanceId:
+    Description: ID of the IAM Identity Center instance
+    Value: !Ref IdentityCenterInstanceId
+    Export:
+      Name: IdentityCenterInstanceId
+      
+  IdentityStoreId:
+    Description: ID of the Identity Store
+    Value: !Ref IdentityStoreId
+    Export:
+      Name: IdentityStoreId
+      
+  AdminGroupId:
+    Description: ID of the Admin Group
+    Value: !GetAtt AdminGroup.GroupId
+    Export:
+      Name: TransformAdminGroupId
+      
+  UserGroupId:
+    Description: ID of the User Group
+    Value: !GetAtt UserGroup.GroupId
+    Export:
+      Name: TransformUserGroupId
+      
+  AdminUserId:
+    Description: ID of the Admin User
+    Value: !GetAtt AdminUser.UserId
+    Export:
+      Name: TransformAdminUserId
+      
+  TransformAdminPolicyArn:
+    Description: ARN of the AWS Transform Admin Policy
+    Value: !Ref TransformAdminPolicy
+    Export:
+      Name: TransformAdminPolicyArn
+      
+  TransformUserPolicyArn:
+    Description: ARN of the AWS Transform User Policy
+    Value: !Ref TransformUserPolicy
+    Export:
+      Name: TransformUserPolicyArn
+      
+  TransformServiceRoleArn:
+    Description: ARN of the AWS Transform Service Role
+    Value: !GetAtt TransformServiceRole.Arn
+    Export:
+      Name: TransformServiceRoleArn

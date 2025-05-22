@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Phase 1: CloudFormation template for AWS Organizations setup'
+
+Resources:
+  # Enable AWS Organizations
+  OrganizationsSetup:
+    Type: AWS::Organizations::Organization
+    Properties:
+      FeatureSet: ALL
+
+Outputs:
+  OrganizationId:
+    Description: ID of the AWS Organization
+    Value: !Ref OrganizationsSetup
+    Export:
+      Name: OrganizationId
