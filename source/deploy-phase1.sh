@@ -2,7 +2,7 @@
 
 # Set variables
 STACK_NAME="aws-org-setup"
-TEMPLATE_PATH="/Users/pnavkmr/Documents/AWSTransform/VMWare/Scripts/phase1-aws-organizations.yaml"
+TEMPLATE_PATH="/phase1-aws-organizations.yaml"
 
 # Deploy the CloudFormation stack
 echo "Deploying Phase 1 CloudFormation stack: $STACK_NAME"
