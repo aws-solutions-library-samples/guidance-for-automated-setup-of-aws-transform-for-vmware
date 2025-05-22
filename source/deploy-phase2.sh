@@ -2,10 +2,10 @@
 
 # Set variables
 STACK_NAME="aws-transform-setup"
-TEMPLATE_PATH="/Users/pnavkmr/Documents/AWSTransform/VMWare/Scripts/phase2-idc.yaml"
-ACCOUNT_NUMBER="261169764245"
-ADMIN_EMAIL="pnavkmr@amazon.com"
-IDENTITY_CENTER_ID="ssoins-7223af279f1ade2d"
+TEMPLATE_PATH="phase2-idc.yaml"
+ACCOUNT_NUMBER="1234567"
+ADMIN_EMAIL="abcde@amazon.com"
+IDENTITY_CENTER_ID="ssoins-xxxxxxxxx"
 
 # Get the Identity Store ID associated with the IAM Identity Center instance
 echo "Retrieving Identity Store ID for IAM Identity Center instance $IDENTITY_CENTER_ID..."
