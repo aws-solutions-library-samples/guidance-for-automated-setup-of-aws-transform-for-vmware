@@ -42,10 +42,11 @@ Provide a brief overview explaining the what, why, or how of your Guidance. You 
     - **What problem does this Guidance solve?**
 -->
 
-### Achitecture
+### Architecture
 
-2. Include the architecture diagram image, as well as the steps explaining the high-level overview and flow of the architecture. 
-    - To add a screenshot, create an ‘assets/images’ folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README. 
+<!-- 2. Include the architecture diagram image, as well as the steps explaining the high-level overview and flow of the architecture. 
+    - To add a screenshot, create an ‘assets/images’ folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README. -->
+Below is the Reference architecture for the guidance showing the core and supporting AWS services: 
 
 <p align="center">
 <img src="assets/reference_architecture_part_1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
