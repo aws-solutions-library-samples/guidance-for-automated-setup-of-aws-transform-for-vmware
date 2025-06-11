@@ -108,42 +108,18 @@ The following table provides a sample cost breakdown for deploying this Guidance
 
 ## Prerequisites
 
-### Operating System
-
-- Talk about the base Operating System (OS) and environment that can be used to run or deploy this Guidance, such as *Mac, Linux, or Windows*. Include all installable packages or modules required for the deployment. 
-- By default, assume Amazon Linux 2/Amazon Linux 2023 AMI as the base environment. All packages that are not available by default in AMI must be listed out.  Include the specific version number of the package or module.
-
-**Example:**
-“These deployment instructions are optimized to best work on **<Amazon Linux 2 AMI>**.  Deployment in another OS may require additional steps.”
-
-- Include install commands for packages, if applicable.
-
+An AWS Account with admin access is required to run the scripts that will enable AWS organization and the Identity Center groups. 
 
 ### Third-party tools (If applicable)
 
 *List any installable third-party tools required for deployment.*
 
+RVtools. 
+
 
 ### AWS account requirements (If applicable)
 
 *List out pre-requisites required on the AWS account if applicable, this includes enabling AWS regions, requiring ACM certificate.*
-
-**Example:** “This deployment requires you have public ACM certificate available in your AWS account”
-
-**Example resources:**
-- ACM certificate 
-- DNS record
-- S3 bucket
-- VPC
-- IAM role with specific permissions
-- Enabling a Region or service etc.
-
-
-### aws cdk bootstrap (if sample code has aws-cdk)
-
-<If using aws-cdk, include steps for account bootstrap for new cdk users.>
-
-**Example blurb:** “This Guidance uses aws-cdk. If you are using aws-cdk for first time, please perform the below bootstrapping....”
 
 ### Service limits  (if applicable)
 
@@ -157,33 +133,69 @@ The following table provides a sample cost breakdown for deploying this Guidance
 
 Deployment steps must be numbered, comprehensive, and usable to customers at any level of AWS expertise. The steps must include the precise commands to run, and describe the action it performs.
 
-* All steps must be numbered.
-* If the step requires manual actions from the AWS console, include a screenshot if possible.
-* The steps must start with the following command to clone the repo. ```git clone xxxxxxx```
-* If applicable, provide instructions to create the Python virtual environment, and installing the packages using ```requirement.txt```.
-* If applicable, provide instructions to capture the deployed resource ARN or ID using the CLI command (recommended), or console action.
- 
-**Example:**
+## Deployment Process
 
-1. Clone the repo using command ```git clone xxxxxxxxxx```
-2. cd to the repo folder ```cd <repo-name>```
-3. Install packages in requirements using command ```pip install requirement.txt```
-4. Edit content of **file-name** and replace **s3-bucket** with the bucket name in your account.
-5. Run this command to deploy the stack ```cdk deploy``` 
-6. Capture the domain name created by running this CLI command ```aws apigateway ............```
+### Clone repository 
+1. Log in to your AWS account on your CLI/shell through your preferred auth provider.
+2. Clone the code repository using command:
+    git clone https://github.com/aws-solutions-library-samples/guidance-for-automating-aws-transformations-vmware-deployment
+
+### Phase 1: Set up AWS Organizations
+3. Change directory to the source folder inside the repository:
+    cd guidance-for-automating-aws-transformations-vmware-deployment/source
+4. Start by running the first bash script: ./deploy-phase1.sh (This creates an AWS Organization with all features enabled) 
+5. Pass in the following paramters using the bash script:
+    STACK_NAME: name of cloudformation stack.
+    TEMPLATE_PATH: path to phase1 yaml.  
+<p align="center">
+<img src="assets/phase1.png" alt="phase 1">
+</p>
+6. After successful deployment, you'll need to manually enable an organization instance of IAM Identity Center in the AWS Console (Wait a few minutes for the changes to propagate)
+<p align="center">
+<img src="assets/enable_identity_center.png" alt="Enable IAM Identity Center">
+</p>
 
 
+### Phase 2: Set up IAM Identity Center and AWS Transform
+1. After enabling IAM Identity Center manually and waiting for it to propagate, run: ./deploy-phase2.sh
+2. Pass in the following paramters using the bash script:
+    STACK_NAME: name of cloudformation stack.
+    TEMPLATE_PATH: path to phase2 yaml.
+    ACCOUNT_NUMBER: AWS account number.
+    IDENTITY_CENTER_ID: AWS Identity Center ID.
+    ADMIN_EMAIL: Email for admin user provisioned by script. 
+<p align="center">
+<img src="assets/phase2.png" alt="phase 2">
+</p>
+This script will:
+   • Create IAM Identity Center groups and users
+   • Set up the necessary IAM policies for AWS Transform
+   • Create the service role for AWS Transform
+   • Create an Admin user of AWS Transform 
 
 ## Deployment Validation
 
-<Provide steps to validate a successful deployment, such as terminal output, verifying that the resource is created, status of the CloudFormation template, etc.>
 
-**Examples:**
-
-* Open CloudFormation console and verify the status of the template with the name starting with xxxxxx.
-* If deployment is successful, you should see an active database instance with the name starting with <xxxxx> in        the RDS console.
-*  Run the following CLI command to validate the deployment: ```aws cloudformation describe xxxxxxxxxxxxx```
-
+* Open CloudFormation console and verify the status of the stacks
+<p align="center">
+<img src="assets/cfn_stack.png" alt="cfn stack status">
+</p>
+* Open Identity Center and verify the created groups
+<p align="center">
+<img src="assets/idc_group.png" alt="idc groups">
+</p>
+* View the admin group and verify created user
+<p align="center">
+<img src="assets/admin_user.png" alt="admin user">
+</p>
+* Make sure the groups can be added to AWS Transform
+<p align="center">
+<img src="assets/transform_group.png" alt="transform group">
+</p>
+* Make sure the start URL can be accessed by Admin user
+<p align="center">
+<img src="assets/transform_start.png" alt="transform start">
+</p>
 
 
 ## Running the Guidance
