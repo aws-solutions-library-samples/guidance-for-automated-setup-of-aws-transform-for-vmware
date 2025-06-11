@@ -1,8 +1,11 @@
 #!/bin/bash
 
-# Set variables
-STACK_NAME="aws-org-setup"
-TEMPLATE_PATH="/phase1-aws-organizations.yaml"
+# Ask for user input
+read -p "Enter stack name [aws-org-setup]: " STACK_NAME
+STACK_NAME=${STACK_NAME:-aws-org-setup}
+
+read -p "Enter template path [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml]: " TEMPLATE_PATH
+TEMPLATE_PATH=${TEMPLATE_PATH:-/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml}
 
 # Deploy the CloudFormation stack
 echo "Deploying Phase 1 CloudFormation stack: $STACK_NAME"

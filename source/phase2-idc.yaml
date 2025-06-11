@@ -7,7 +7,7 @@ Parameters:
     Description: Your AWS account number
     AllowedPattern: '[0-9]{12}'
     ConstraintDescription: Must be a valid 12-digit AWS account number
-    Default: "261169764245"
+    Default: "000000000000" # Replace with your actual account number 
   
   AdminGroupName:
     Type: String
@@ -24,7 +24,7 @@ Parameters:
     Description: Email address for the admin user
     AllowedPattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     ConstraintDescription: Must be a valid email address
-    Default: "pnavkmr@amazon.com"
+    Default: "test@email.com"
     
   AdminFirstName:
     Type: String
@@ -39,7 +39,7 @@ Parameters:
   IdentityCenterInstanceId:
     Type: String
     Description: ID of your existing IAM Identity Center instance
-    Default: "ssoins-7223af279f1ade2d"
+    Default: "ssoins-xxxxxxxxxxx" # Replace with your actual Identity Center instance ID
     
   IdentityStoreId:
     Type: String

@@ -1,11 +1,33 @@
 #!/bin/bash
 
-# Set variables
-STACK_NAME="aws-transform-setup"
-TEMPLATE_PATH="phase2-idc.yaml"
-ACCOUNT_NUMBER="1234567"
-ADMIN_EMAIL="abcde@amazon.com"
-IDENTITY_CENTER_ID="ssoins-xxxxxxxxx"
+# Ask for user input
+read -p "Enter stack name [aws-transform-setup]: " STACK_NAME
+STACK_NAME=${STACK_NAME:-aws-transform-setup}
+
+read -p "Enter template path [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase2-idc.yaml]: " TEMPLATE_PATH
+TEMPLATE_PATH=${TEMPLATE_PATH:-/guidance-for-automating-aws-transformations-vmware-deployment/source/phase2-idc.yaml}
+
+# Validate AWS account number
+while true; do
+  read -p "Enter AWS account number: " ACCOUNT_NUMBER
+  if [[ $ACCOUNT_NUMBER =~ ^[0-9]{12}$ ]]; then
+    break
+  else
+    echo "Error: AWS account number must be exactly 12 digits. Please try again."
+  fi
+done
+
+# Validate email address
+while true; do
+  read -p "Enter admin email address: " ADMIN_EMAIL
+  if [[ $ADMIN_EMAIL =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+    break
+  else
+    echo "Error: Invalid email format. Please try again."
+  fi
+done
+
+read -p "Enter Identity Center ID: " IDENTITY_CENTER_ID
 
 # Get the Identity Store ID associated with the IAM Identity Center instance
 echo "Retrieving Identity Store ID for IAM Identity Center instance $IDENTITY_CENTER_ID..."
