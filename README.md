@@ -158,7 +158,7 @@ Deployment steps must be numbered, comprehensive, and usable to customers at any
 
 ### Phase 2: Set up IAM Identity Center and AWS Transform
 1. After enabling IAM Identity Center manually and waiting for it to propagate, run: ./deploy-phase2.sh
-2. Pass in the following paramters using the bash script:
+2. Pass in the following parameters using the bash script:
     STACK_NAME: name of cloudformation stack.
     TEMPLATE_PATH: path to phase2 yaml.
     ACCOUNT_NUMBER: AWS account number.
@@ -169,9 +169,7 @@ Deployment steps must be numbered, comprehensive, and usable to customers at any
 </p>
 This script will:
    • Create IAM Identity Center groups and users
-   • Set up the necessary IAM policies for AWS Transform
-   • Create the service role for AWS Transform
-   • Create an Admin user of AWS Transform 
+   • Set up the necessary IAM policies for IAM Identity Center groups to access/maintain AWS Transform
 
 ## Deployment Validation
 
