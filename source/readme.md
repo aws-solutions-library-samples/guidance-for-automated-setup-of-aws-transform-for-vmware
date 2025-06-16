@@ -8,8 +8,9 @@
 ### Phase 2: Set up IAM Identity Center and AWS Transform
 1. After enabling IAM Identity Center manually and waiting for it to propagate, run: ./deploy-phase2.sh
 2. This script will:
-   • Create IAM Identity Center groups and users
-   • Set up the necessary IAM policies for AWS Transform for both groups
+   - Create IAM Identity Center groups and users
+   - Set up the necessary IAM policies for AWS Transform for both groups
+   - Create an Admin user using lambda functions in Identity Center based on a provided email
 
 ## Overview
 

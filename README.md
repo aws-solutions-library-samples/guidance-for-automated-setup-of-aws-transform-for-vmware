@@ -97,41 +97,38 @@ _We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/l
 
 ### Sample Cost Table
 
-**Note : Once you have created a sample cost table using AWS Pricing Calculator, copy the cost breakdown to below table and upload a PDF of the cost estimation on BuilderSpace. Do not add the link to the pricing calculator in the ReadMe.**
 
-The following table provides a sample cost breakdown for deploying this Guidance with the default parameters in the US East (N. Virginia) Region for one month.
+
+The following table provides a sample cost breakdown for the services deployed as part of this guidance. 
+**Note : We are not including cost of services used to run the guidance or variable subsequent compute cost of migrated servers.**
 
 | AWS service  | Dimensions | Cost [USD] |
 | ----------- | ------------ | ------------ |
-| Amazon API Gateway | 1,000,000 REST API calls per month  | $ 3.50month |
-| Amazon Cognito | 1,000 active users per month without advanced security feature | $ 0.00 |
+| AWS IAM Identity Center | number of users  |  free |
+| AWS Organizations | number of accounts in organization | free |
+| Amazon Lambda | 1M requests | $0.20 |
 
 ## Prerequisites
 
-An AWS Account with admin access is required to run the scripts that will enable AWS organization and the Identity Center groups. 
-
 ### Third-party tools (If applicable)
 
-*List any installable third-party tools required for deployment.*
-
-RVtools. 
-
+The machine running this guidance needs to support bash or powershell scripts. Alternatively, the parameters can be manually added to the CloudFormation YAML files. 
 
 ### AWS account requirements (If applicable)
 
-*List out pre-requisites required on the AWS account if applicable, this includes enabling AWS regions, requiring ACM certificate.*
+An AWS Account with admin access is required to run the scripts that will enable AWS organization and the Identity Center groups. 
 
 ### Service limits  (if applicable)
 
-<Talk about any critical service limits that affect the regular functioning of the Guidance. If the Guidance requires service limit increase, include the service name, limit name and link to the service quotas page.>
+AWS Transform Service Quotas:
+https://docs.aws.amazon.com/transform/latest/userguide/transform-limits.html
 
 ### Supported Regions (if applicable)
 
-<If the Guidance is built for specific AWS Regions, or if the services used in the Guidance do not support all Regions, please specify the Region this Guidance is best suited for>
+AWS Transform Supported Regions:
+https://docs.aws.amazon.com/transform/latest/userguide/regions.html
 
 ## Deployment Steps
-
-Deployment steps must be numbered, comprehensive, and usable to customers at any level of AWS expertise. The steps must include the precise commands to run, and describe the action it performs.
 
 ## Deployment Process
 
@@ -141,9 +138,15 @@ Deployment steps must be numbered, comprehensive, and usable to customers at any
     git clone https://github.com/aws-solutions-library-samples/guidance-for-automating-aws-transformations-vmware-deployment
 
 ### Phase 1: Set up AWS Organizations
+
+**Note : If you already have AWS Organizations enabled in your Management account, you can skip phase 1.**
+
 3. Change directory to the source folder inside the repository:
     cd guidance-for-automating-aws-transformations-vmware-deployment/source
 4. Start by running the first bash script: ./deploy-phase1.sh (This creates an AWS Organization with all features enabled) 
+
+**Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.**
+
 5. Pass in the following paramters using the bash script:
     STACK_NAME: name of cloudformation stack.
     TEMPLATE_PATH: path to phase1 yaml.  
@@ -164,12 +167,16 @@ Deployment steps must be numbered, comprehensive, and usable to customers at any
     ACCOUNT_NUMBER: AWS account number.
     IDENTITY_CENTER_ID: AWS Identity Center ID.
     ADMIN_EMAIL: Email for admin user provisioned by script. 
+**Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.**
 <p align="center">
 <img src="assets/phase2.png" alt="phase 2">
 </p>
 This script will:
-   • Create IAM Identity Center groups and users
-   • Set up the necessary IAM policies for IAM Identity Center groups to access/maintain AWS Transform
+   - Create IAM Identity Center groups and users
+   - Set up the necessary IAM policies for AWS Transform for both groups
+   - Create an Admin user using lambda functions in Identity Center based on a provided email
+   
+**Note : Our script uses the deployed lambda functions to add the provided email as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added through the console following best practice.**
 
 ## Deployment Validation
 
@@ -198,65 +205,29 @@ This script will:
 
 ## Running the Guidance
 
-<Provide instructions to run the Guidance with the sample data or input provided, and interpret the output received.> 
+**Note : Please make sure the discovery and target accounts have been added as members to the organization.**
 
-This section should include:
 
-* Guidance inputs
-* Commands to run
-* Expected output (provide screenshot if possible)
-* Output description
+Explore our self-guided demo to learn how AWS Transform for VMware Service streamlines your VMware workload modernization. See how it automates key processes including application discovery, dependency mapping, network translation, wave planning, and server migration—all while optimizing Amazon EC2 instance selection for peak performance:
 
-## Next Steps
-
-Provide suggestions and recommendations about how customers can modify the parameters and the components of the Guidance to further enhance it according to their requirements.
+https://aws.storylane.io/share/qye0se68an9i
 
 
 ## Cleanup
 
-- Include detailed instructions, commands, and console actions to delete the deployed Guidance.
-- If the Guidance requires manual deletion of resources, such as the content of an S3 bucket, please specify.
+When you no longer need to use the guidance, you should delete the AWS resources deployed by it in order to prevent ongoing charges for their use.
+
+In the AWS Management Console, navigate to CloudFormation and locate the 2 guidance stacks deployed.
+Starting with the most recent stack (not including any nested stacks), select the stack and click Delete button:
+<p align="center">
+<img src="assets/cleanup_cfn.png" alt="delete stack">
+</p>
 
 
+## Authors 
 
-## FAQ, known issues, additional considerations, and limitations (optional)
-
-
-**Known issues (optional)**
-
-<If there are common known issues, or errors that can occur during the Guidance deployment, describe the issue and resolution steps here>
-
-
-**Additional considerations (if applicable)**
-
-<Include considerations the customer must know while using the Guidance, such as anti-patterns, or billing considerations.>
-
-**Examples:**
-
-- “This Guidance creates a public AWS bucket required for the use-case.”
-- “This Guidance created an Amazon SageMaker notebook that is billed per hour irrespective of usage.”
-- “This Guidance creates unauthenticated public API endpoints.”
-
-
-Provide a link to the *GitHub issues page* for users to provide feedback.
-
-
-**Example:** *“For any feedback, questions, or suggestions, please use the issues tab under this repo.”*
-
-## Revisions (optional)
-
-Document all notable changes to this project.
-
-Consider formatting this section based on Keep a Changelog, and adhering to Semantic Versioning.
-
-## Notices (optional)
-
-Include a legal disclaimer
-
-**Example:**
-*Customers are responsible for making their own independent assessment of the information in this Guidance. This Guidance: (a) is for informational purposes only, (b) represents AWS current product offerings and practices, which are subject to change without notice, and (c) does not create any commitments or assurances from AWS and its affiliates, suppliers or licensors. AWS products or services are provided “as is” without warranties, representations, or conditions of any kind, whether express or implied. AWS responsibilities and liabilities to its customers are controlled by AWS agreements, and this Guidance is not part of, nor does it modify, any agreement between AWS and its customers.*
-
-
-## Authors (optional)
-
-Name of code contributors
+Pranav Kumar
+Patrick Kremer 
+Kiran Reid 
+Saood Usmani
+Daniel Zilberman 
