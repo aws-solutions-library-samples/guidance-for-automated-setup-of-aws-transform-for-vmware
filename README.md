@@ -88,20 +88,20 @@ We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/la
 
 ## Prerequisites
 
-### Third-party tools (If applicable)
+### Third-party tools 
 
 The machine running this guidance needs to support bash or powershell scripts. Alternatively, the parameters can be manually added to the CloudFormation YAML files. 
 
-### AWS account requirements (If applicable)
+### AWS account requirements 
 
 An AWS Account with admin access is required to run the scripts that will enable AWS organization and the Identity Center groups. 
 
-### Service limits  (if applicable)
+### Service limits  
 
 AWS Transform Service Quotas:
 https://docs.aws.amazon.com/transform/latest/userguide/transform-limits.html
 
-### Supported Regions (if applicable)
+### Supported Regions 
 
 AWS Transform Supported Regions:
 https://docs.aws.amazon.com/transform/latest/userguide/regions.html
