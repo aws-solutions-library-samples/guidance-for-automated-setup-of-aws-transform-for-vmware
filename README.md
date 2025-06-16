@@ -10,10 +10,6 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 ## Table of Contents
 
-List the top-level sections of the README template, along with a hyperlink to the specific section.
-
-### Required
-
 1. [Overview](#overview)
     - [Architecture](#architecture)
     - [Cost](#cost)
