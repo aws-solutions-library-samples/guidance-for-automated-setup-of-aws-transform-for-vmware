@@ -84,29 +84,18 @@ For complete setup instructions and requirements, please refer to the Implementa
 
 ### Cost
 
-This section is for a high-level cost estimate. Think of a likely straightforward scenario with reasonable assumptions based on the problem the Guidance is trying to solve. Provide an in-depth cost breakdown table in this section below ( you should use AWS Pricing Calculator to generate cost breakdown ).
-
-Start this section with the following boilerplate text:
-
-_You are responsible for the cost of the AWS services used while running this Guidance. As of <month> <year>, the cost for running this Guidance with the default settings in the <Default AWS Region (Most likely will be US East (N. Virginia)) > is approximately $<n.nn> per month for processing ( <nnnnn> records )._
-
-Replace this amount with the approximate cost for running your Guidance in the default Region. This estimate should be per month and for processing/serving resonable number of requests/entities.
-
-Suggest you keep this boilerplate text:
-_We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance._
-
-### Sample Cost Table
-
-
-
-The following table provides a sample cost breakdown for the services deployed as part of this guidance. 
+You are responsible for the cost of the AWS services used while running this Guidance. The following table provides a sample cost breakdown for the services deployed as part of this guidance. 
 **Note : We are not including cost of services used to run the guidance or variable subsequent compute cost of migrated servers.**
+
+### Cost Table
 
 | AWS service  | Dimensions | Cost [USD] |
 | ----------- | ------------ | ------------ |
 | AWS IAM Identity Center | number of users  |  free |
 | AWS Organizations | number of accounts in organization | free |
 | Amazon Lambda | 1M requests | $0.20 |
+
+We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance.
 
 ## Prerequisites
 
@@ -226,8 +215,8 @@ Starting with the most recent stack (not including any nested stacks), select th
 
 ## Authors 
 
-Pranav Kumar
-Patrick Kremer 
-Kiran Reid 
-Saood Usmani
+Pranav Kumar,
+Patrick Kremer, 
+Kiran Reid, 
+Saood Usmani,
 Daniel Zilberman 
