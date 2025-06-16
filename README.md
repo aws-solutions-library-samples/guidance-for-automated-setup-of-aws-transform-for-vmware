@@ -23,7 +23,7 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 ## Overview
 
-1. This Guidance provides an automated approach to deploying AWS Transform VMware resources using Infrastructure as Code (IaC). It streamlines the setup process by automating the provisioning of required AWS services, network configurations, and security controls. The solution accelerates time-to-value for organizations migrating VMware workloads while ensuring adherence to AWS best practices and security standards.
+This Guidance provides an automated approach to deploying AWS Transform VMware resources using Infrastructure as Code (IaC). It streamlines the setup process by automating the provisioning of required AWS services, network configurations, and security controls. The solution accelerates time-to-value for organizations migrating VMware workloads while ensuring adherence to AWS best practices and security standards.
 <!--
 Provide a brief overview explaining the what, why, or how of your Guidance. You can answer any one of the following to help you write this:
 
