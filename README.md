@@ -22,14 +22,7 @@ List the top-level sections of the README template, along with a hyperlink to th
 4. [Deployment Steps](#deployment-steps)
 5. [Deployment Validation](#deployment-validation)
 6. [Running the Guidance](#running-the-guidance)
-7. [Next Steps](#next-steps)
 8. [Cleanup](#cleanup)
-
-***Optional***
-
-8. [FAQ, known issues, additional considerations, and limitations](#faq-known-issues-additional-considerations-and-limitations-optional)
-9. [Revisions](#revisions-optional)
-10. [Notices](#notices-optional)
 11. [Authors](#authors-optional)
 
 ## Overview
