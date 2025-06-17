@@ -30,7 +30,24 @@ This Guidance provides an automated approach to deploying AWS Transform for VMwa
 Below is the Reference architecture for the guidance showing the core and supporting AWS services: 
 
 <p align="center">
-<img src="assets/reference_architecture_part_1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
+<img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
+Figure 1. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architetcure part 1
+<br/>
+Steps for Figure 1..    
+</p>
+
+<p align="center">
+<img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMWare">
+Figure 2. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architetcure part 2
+<br/>
+Steps for Figure 2...
+</p>
+
+<p align="center">
+<img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMWare">
+Figure 3. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architetcure part 3
+<br/>
+Steps for Figure 3...
 </p>
 
 The journey begins with a thorough discovery and assessment of your on-premises VMware environment 
