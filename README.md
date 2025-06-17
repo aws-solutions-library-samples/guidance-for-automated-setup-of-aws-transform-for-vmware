@@ -23,7 +23,7 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 ## Overview
 
-This Guidance provides an automated approach to deploying AWS Transform VMware resources using Infrastructure as Code (IaC). It streamlines the setup process by automating the provisioning of required AWS services, network configurations, and security controls. The solution accelerates time-to-value for organizations migrating VMware workloads while ensuring adherence to AWS best practices and security standards.
+This Guidance provides an automated approach to deploying AWS Transform for VMware resources using Infrastructure as Code (IaC). It streamlines the setup process by automating the provisioning of required AWS services, network configurations, and security controls. The guidance accelerates time-to-value for organizations migrating VMware workloads while ensuring adherence to AWS best practices and security standards.
 
 ### Architecture
 
@@ -76,6 +76,8 @@ You are responsible for the cost of the AWS services used while running this Gui
 
 ### Cost Table
 
+You are responsible for the cost of the AWS services used while running this Guidance. As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) is approximately $XXX per month for processing 100 migration scenarios.
+
 | AWS service  | Dimensions | Cost [USD] |
 | ----------- | ------------ | ------------ |
 | AWS IAM Identity Center | number of users  |  free |
@@ -104,9 +106,18 @@ https://docs.aws.amazon.com/transform/latest/userguide/transform-limits.html
 AWS Transform Supported Regions:
 https://docs.aws.amazon.com/transform/latest/userguide/regions.html
 
+You can create AWS Transform workspaces in the following AWS Regions. These Regions are enabled by default, meaning you don't need to enable them before use. 
+
+| Region Name | Region Code |
+|-------------|-------------|
+| US East (N. Virginia) | us-east-1 |
+| Europe (Frankfurt) | eu-central-1 |
+
+The workspace in which you create a job determines the AWS Region of the job. To create a job in a different Region, you must use a different workspace that is in your desired Region.
+
 ## Deployment Steps
 
-### Clone repository 
+### Clone Guidance repository 
 1. Log in to your AWS account on your CLI/shell through your preferred auth provider.
 2. Clone the repository:
 
@@ -118,7 +129,7 @@ https://docs.aws.amazon.com/transform/latest/userguide/regions.html
 
 **Note : If you already have AWS Organizations enabled in your Management account, you can skip phase 1.**
 
-3. Change directory to the source folder inside the repository:
+3. Change directory to the source folder inside the guidance repository:
 
     ```bash
     cd guidance-for-automating-aws-transformations-vmware-deployment/source
