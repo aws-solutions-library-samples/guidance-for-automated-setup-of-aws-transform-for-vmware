@@ -13,28 +13,20 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 1. [Overview](#overview)
     - [Architecture](#architecture)
     - [Cost](#cost)
-3. [Prerequisites](#prerequisites)
+1. [Prerequisites](#prerequisites)
     - [Operating System](#operating-system)
-4. [Deployment Steps](#deployment-steps)
-5. [Deployment Validation](#deployment-validation)
-6. [Running the Guidance](#running-the-guidance)
-8. [Cleanup](#cleanup)
-11. [Authors](#authors-optional)
+1. [Deployment Steps](#deployment-steps)
+1. [Deployment Validation](#deployment-validation)
+1. [Running the Guidance](#running-the-guidance)
+1. [Cleanup](#cleanup)
+1. [Authors](#authors-optional)
 
 ## Overview
 
 This Guidance provides an automated approach to deploying AWS Transform VMware resources using Infrastructure as Code (IaC). It streamlines the setup process by automating the provisioning of required AWS services, network configurations, and security controls. The solution accelerates time-to-value for organizations migrating VMware workloads while ensuring adherence to AWS best practices and security standards.
-<!--
-Provide a brief overview explaining the what, why, or how of your Guidance. You can answer any one of the following to help you write this:
-
-    - **Why did you build this Guidance?**
-    - **What problem does this Guidance solve?**
--->
 
 ### Architecture
 
-<!-- 2. Include the architecture diagram image, as well as the steps explaining the high-level overview and flow of the architecture. 
-    - To add a screenshot, create an ‘assets/images’ folder in your repository and upload your screenshot to it. Then, using the relative file path, add it to your README. -->
 Below is the Reference architecture for the guidance showing the core and supporting AWS services: 
 
 <p align="center">
@@ -42,7 +34,13 @@ Below is the Reference architecture for the guidance showing the core and suppor
 </p>
 
 The journey begins with a thorough discovery and assessment of your on-premises VMware environment 
-(1). **AWS Transform for VMware** supports multiple discovery methods, including RVTools for VMware inventory collection, AWS Application Discovery Agent (Discovery Agent) for gathering network communication patterns between applications and servers, Application Discovery Service Agentless Collector (Agentless Collector) for non-intrusive collection of TCP/IP network connections and process data, and ModelizeIT for additional network dependency mapping. These tools help build a comprehensive view of application-to-application communications, server-to-server dependencies, and overall network topology.
+(1). **AWS Transform for VMware** supports multiple discovery methods: 
+
+- RVTools for VMware inventory collection
+- AWS Application Discovery Agent (Discovery Agent) for gathering network communication patterns between applications and servers 
+- Application Discovery Service Agentless Collector (Agentless Collector) for collecting communication data without installing an agent
+
+These tools help build a comprehensive view of application-to-application communications, server-to-server dependencies, and overall network topology.
 
 The **Inventory Discovery Agent** (3) collects crucial data from your on-premises environment and stores it securely in both Amazon Simple Storage Service (Amazon S3) buckets (14) within the AWS Discovery account (12) and AWS Migration Hub (13). This data forms the foundation for informed migration planning and is further processed by Migration Hub (13) and AWS Application Discovery Service (16). AWS Transform works together with these services to provide a single place to track migration progress and collect server inventory and dependency data, which is essential for successful application grouping and wave planning.
 
@@ -90,7 +88,7 @@ We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/la
 
 ### Third-party tools 
 
-The machine running this guidance needs to support bash or powershell scripts. Alternatively, the parameters can be manually added to the CloudFormation YAML files. 
+The machine running this guidance needs to support BASH or PowerShell scripts. Alternatively, the parameters can be manually added to the CloudFormation YAML files. 
 
 ### AWS account requirements 
 
@@ -108,53 +106,95 @@ https://docs.aws.amazon.com/transform/latest/userguide/regions.html
 
 ## Deployment Steps
 
-## Deployment Process
-
 ### Clone repository 
 1. Log in to your AWS account on your CLI/shell through your preferred auth provider.
-2. Clone the code repository using command:
+2. Clone the repository:
+
+    ```bash
     git clone https://github.com/aws-solutions-library-samples/guidance-for-automating-aws-transformations-vmware-deployment
+    ```
 
 ### Phase 1: Set up AWS Organizations
 
 **Note : If you already have AWS Organizations enabled in your Management account, you can skip phase 1.**
 
 3. Change directory to the source folder inside the repository:
+
+    ```bash
     cd guidance-for-automating-aws-transformations-vmware-deployment/source
-4. Start by running the first bash script: ./deploy-phase1.sh (This creates an AWS Organization with all features enabled) 
+    ```
 
-**Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.**
+4. Start by running the first bash script. This creates an AWS Organization with all features enabled.
 
-5. Pass in the following paramters using the bash script:
-    STACK_NAME: name of cloudformation stack.
-    TEMPLATE_PATH: path to phase1 yaml.  
-<p align="center">
-<img src="assets/phase1.png" alt="phase 1">
-</p>
-6. After successful deployment, you'll need to manually enable an organization instance of IAM Identity Center in the AWS Console (Wait a few minutes for the changes to propagate)
+    Pass in the following paramters to the second bash script:
+
+    - STACK_NAME: name of cloudformation stack.
+    - TEMPLATE_PATH: path to phase2 yaml.
+
+    BASH
+
+    ```bash
+    source % ./deploy-phase1.sh
+    Enter stack name [aws-org-setup]: aws-org-setup-example
+    Enter template path [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml]:
+    ```
+
+    PowerShell
+
+    ```powershell
+        PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase1.ps1
+        Enter stack name [aws-org-setup]: 
+        Enter template path [phase1-aws-organizations.yaml]: 
+    ```
+
+    > Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.
+
+5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (Wait a few minutes for the changes to propagate)
 <p align="center">
 <img src="assets/enable_identity_center.png" alt="Enable IAM Identity Center">
 </p>
 
 
 ### Phase 2: Set up IAM Identity Center and AWS Transform
-1. After enabling IAM Identity Center manually and waiting for it to propagate, run: ./deploy-phase2.sh
-2. Pass in the following parameters using the bash script:
-    STACK_NAME: name of cloudformation stack.
-    TEMPLATE_PATH: path to phase2 yaml.
-    ACCOUNT_NUMBER: AWS account number.
-    IDENTITY_CENTER_ID: AWS Identity Center ID.
-    ADMIN_EMAIL: Email for admin user provisioned by script. 
-**Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.**
-<p align="center">
-<img src="assets/phase2.png" alt="phase 2">
-</p>
-This script will:
-   - Create IAM Identity Center groups and users
-   - Set up the necessary IAM policies for AWS Transform for both groups
-   - Create an Admin user using lambda functions in Identity Center based on a provided email
+1. After enabling IAM Identity Center manually and waiting for it to propagate, run the second BASH script
+
+    Pass in the following parameters using the bash script:
+        STACK_NAME: name of cloudformation stack.
+        TEMPLATE_PATH: path to phase2 yaml.
+        ACCOUNT_NUMBER: AWS account number.
+        IDENTITY_CENTER_ID: AWS Identity Center ID.
+        ADMIN_EMAIL: Email for admin user provisioned by script.
+
+    BASH
+
+    ```bash
+        source % ./deploy-phase2.sh
+        Enter stack name [aws-transform-setup]:
+        Enter template path: [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase2-idc.yaml]:
+        Enter AWS account number: 123456789012
+        Enter admin email address: admin@amazon.com
+    ```
+
+    PowerShell
+
+    ```powershell
+        PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase2.ps1
+        Enter stack name [aws-transform-setup]:
+        Enter template path [phase2-idc.yaml]:
+        Enter AWS account number: 123456789012
+        Enter admin email address: admin@amazon.com 
+        Enter Identity Center ID: ssoins-1234a123b1d5ab3f
+        Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
+        Found Identity Store ID: d-40338374bc
+    ```
+    
+
+    This script will:
+    - Create IAM Identity Center groups and users
+    - Set up the necessary IAM policies for AWS Transform for both groups
+    - Create an Admin user using lambda functions in Identity Center based on a provided email
    
-**Note : Our script uses the deployed lambda functions to add the provided email as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added through the console following best practice.**
+**Note : The script uses the deployed Lambda functions to add the provided email as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added through the console following best practice.**
 
 ## Deployment Validation
 
@@ -183,7 +223,7 @@ This script will:
 
 ## Running the Guidance
 
-**Note : Please make sure the discovery and target accounts have been added as members to the organization.**
+> Note : Please make sure the discovery and target accounts have been added as members to the organization.
 
 
 Explore our self-guided demo to learn how AWS Transform for VMware Service streamlines your VMware workload modernization. See how it automates key processes including application discovery, dependency mapping, network translation, wave planning, and server migration—all while optimizing Amazon EC2 instance selection for peak performance:

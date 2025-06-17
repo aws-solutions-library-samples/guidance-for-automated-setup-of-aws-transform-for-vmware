@@ -1,13 +1,22 @@
-# Set variables
-$STACK_NAME = "aws-org-setup"
-$TEMPLATE_PATH = ".\phase1-aws-organizations.yaml"
+# PowerShell script to deploy phase 1
+
+# Ask for user input
+$STACK_NAME = Read-Host -Prompt "Enter stack name [aws-org-setup]"
+if ([string]::IsNullOrEmpty($STACK_NAME)) {
+    $STACK_NAME = "aws-org-setup"
+}
+
+$TEMPLATE_PATH = Read-Host -Prompt "Enter template path [phase1-aws-organizations.yaml]"
+if ([string]::IsNullOrEmpty($TEMPLATE_PATH)) {
+    $TEMPLATE_PATH = "phase1-aws-organizations.yaml"
+}
 
 # Deploy the CloudFormation stack
 Write-Host "Deploying Phase 1 CloudFormation stack: $STACK_NAME"
-aws cloudformation create-stack `
-  --stack-name $STACK_NAME `
-  --template-body file://$TEMPLATE_PATH `
-  --capabilities CAPABILITY_NAMED_IAM
+$deployResult = aws cloudformation create-stack `
+    --stack-name $STACK_NAME `
+    --template-body file://$TEMPLATE_PATH `
+    --capabilities CAPABILITY_NAMED_IAM
 
 # Check if the deployment started successfully
 if ($LASTEXITCODE -eq 0) {
@@ -30,11 +39,9 @@ if ($LASTEXITCODE -eq 0) {
         Write-Host "2. Enable IAM Identity Center manually"
         Write-Host "3. Wait for a few minutes for the changes to propagate"
         Write-Host "4. Then run the Phase 2 deployment script"
-    }
-    else {
+    } else {
         Write-Host "Stack creation failed or timed out. Check the AWS CloudFormation console for details."
     }
-}
-else {
+} else {
     Write-Host "Failed to initiate stack creation. Check your AWS credentials and permissions."
 }
