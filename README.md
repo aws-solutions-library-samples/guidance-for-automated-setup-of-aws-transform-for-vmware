@@ -173,6 +173,9 @@ https://docs.aws.amazon.com/transform/latest/userguide/regions.html
         Enter template path: [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase2-idc.yaml]:
         Enter AWS account number: 123456789012
         Enter admin email address: admin@amazon.com
+        Enter Identity Center ID: ssoins-1234a123b1d5ab3f
+        Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
+        Found Identity Store ID: d-40338374bc
     ```
 
     PowerShell
