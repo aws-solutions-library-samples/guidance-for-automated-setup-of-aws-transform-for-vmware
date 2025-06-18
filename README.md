@@ -12,6 +12,7 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 1. [Overview](#overview)
     - [Architecture](#architecture)
+    - [Services in this guidance](#services-in-this-guidance)
     - [Cost](#cost)
 1. [Prerequisites](#prerequisites)
     - [Operating System](#operating-system)
@@ -31,25 +32,56 @@ Below is the Reference architecture for the guidance showing the core and suppor
 
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 1. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architetcure part 1
-<br/>
-Steps for Figure 1..    
+Figure 1. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 1
+<br/>    
+</p>
+<p align="left">
+1. On-premises VMware environment hosts the workloads to be migrated. RVTools can be used along by Administrator users with optional import/export functionality for customers running VMware NSX. 
+<br/>2. AWS agent and agentless discovery agents used (in addition to or instead of RVTools) to gather and collect data and dependencies for migration. AWS Replication Agent is used to migrate virtual machines to AWS.
+<br/>3. AWS Transform for VMware discovery workspaces are currently available in US East (N. Virginia) and Europe (Frankfurt), with workspace selection important for data residency compliance, though migrations can target a broader range of AWS regions globally.
+<br/>4. AWS Transform for VMware helps optimize infrastructure and reduce operational overhead, providing a more predictable, cost-efficient path to modernization.
+<br/>5. The Inventory Discovery capability collects data from the on-premises environment and stores it in the Discovery account's Amazon Simple Storage Service (S3) buckets
+<br/>6. The Network Migration capability translates on-premises network configurations to AWS equivalents (Amazon Virtual Private Cloud - VPC, Subnets, Security groups, Transit gateways, and more). It provides Infrastructure as Code through Amazon CloudFormation and AWS CDK templates and deploys them to a (*Migration*) Target AWS account. 
 </p>
 
+<br/>
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 2. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architetcure part 2
+Figure 2. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 2
 <br/>
-Steps for Figure 2...
 </p>
+<p align="left">
+7. The AWS Migration Planning account hosts AWS Application Discovery Service (ADS) to collect, store, and process detailed infrastructure and application data for migration planning. The Discovery account provides secure isolation of collected infrastructure data and maintains separation of discovery and migration activities.
+<br/>8. AWS Key Management Service encrypts stored data, conversation history, and artifacts using either AWS managed keys by default or Customer Managed Keys (CMK) when configured.
+<br/>9. AWS Organizations enables centralized management of multiple AWS accounts, allowing hierarchical structuring through Organizational Units. 
+<br/>10. AWS CloudWatch monitors AWS Transform service activities, resource utilization, and operational metrics within the management account where the AWS Transform service is hosted. 
+<br/>11. AWS IAM Identity Center provides centralized access management across all AWS accounts!
+<br/>12. Amazon Simple Storage Service (S3) buckets in the Discovery account store RVTools exports, NSX configurations, and AWS Application Discovery Service collector data including system performance, running processes, and network connections.
+<br/>13. AWS CloudWatch .... logs
+<br/>14. AWS CloudTrail logs API activities performed within customer AWS accounts, while AWS Transform worklogs track detailed migration activities and operations.
+<br/>15. AWS Application Discovery Service collects server inventory and dependency data from on-premises environments to assist AWS Transform with application grouping and wave planning.
+</p>
+<br/>
 
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 3. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architetcure part 3
+Figure 3. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 3
 <br/>
-Steps for Figure 3...
+</p>
+<p align="left">
+16. AWS Transform supports migrations to 12 target AWS regions, offering broader geographical support
+<br/>17. The AWS Target/Provisioning Account serves as the production environment where the migrated applications will reside, containing all target infrastructure and housing the production workloads after migration is complete.
+<br/>18. As part of AWS Transform the Wave Planning capability uses Graph Neural Networks to analyze application dependencies and plan migration waves
+<br/>19. AWS Transform orchestrates end-to-end migration by coordinating across various AWS tools and service. Server Migration capability utilizes AWS Application Migration Service to transfer servers to AWS
+<br/>20. Amazon Elastic Compute Cloud (EC2) and Amazon Elastic Block Store (EBS) serves as the target destination for migrated VMware virtual machines; AWS Transform recommends instance types based on source workload analysis.
+<br/>21. Amazon VPC provides isolated network environments that AWS Transform creates to match on-premises network segments.
+<br/>22. AWS Transit Gateway enables hub-and-spoke or Isolated networking that AWS Transform configures to connect multiple VPCs created during the migration process. 
+<br/>23. NAT gateway provides outbound internet access for private subnets that AWS Transform creates during network conversion. Created in hub-and-spoke deployment. Not created in isolated deployment
+<br/>24. AWS Application Migration Service replicates source servers to AWS and launches test and cutover EC2 instances based on preferences configured within AWS Transform.
+<br/>25. While used in the planning stages Amazon KMS, CloudWatch, CloudTrail, Identity and Access Management (IAM), CloudFormation and Amazon S3 are also used by MGN during the migration.  
 </p>
 
+<!--
 The journey begins with a thorough discovery and assessment of your on-premises VMware environment 
 (1). **AWS Transform for VMware** supports multiple discovery methods: 
 
@@ -83,8 +115,29 @@ AWS Transform for VMware offers two networking models to suit different requirem
 ·     Isolated model – Each VPC operates independently, connected directly by Transit Gateway. This approach offers greater isolation and is suitable for environments with strict separation requirements.
 
 VPCs (22) created by AWS Transform match your on-premises network segments, providing a seamless transition. NAT gateways (23) provide outbound internet access for private subnets, maintaining security while enabling necessary connectivity. In hub-and-spoke deployments, shared NAT gateways are used in the central hub VPC, whereas in isolated deployments, individual NAT gateways are created for each VPC.
+-->
 
-For complete setup instructions and requirements, please refer to the Implementation Guide.
+### AWS Services in this Guidance
+
+**TODO update list of services below to include core services deployed by this guidance**
+
+| **AWS Service** | **Role** | **Description** |
+|-----------------|----------|-----------------|
+| [Amazon Elastic Kubernetes Service](https://aws.amazon.com/eks/) ( EKS) | Core service | Manages the Kubernetes control plane and worker nodes for container orchestration. |
+| [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) | Core service | Provides the compute instances for EKS worker nodes and runs containerized applications. |
+| [Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/) (VPC) | Core Service | Creates an isolated network environment with public and private subnets across multiple Availability Zones. |
+| [Amazon Elastic Container Registry](http://aws.amazon.com/ecr/) (ECR) | Supporting service | Stores and manages Docker container images for EKS deployments. |
+| [Elastic Load Balancing](https://aws.amazon.com/elasticloadbalancing/) (NLB) | Supporting service | Distributes incoming traffic across multiple targets in the EKS cluster. |
+| [Amazon Elastic Block Store](https://aws.amazon.com/ebs) (EBS) | Supporting service | Provides persistent block storage volumes for EC2 instances in the EKS cluster. |
+| [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) | Supporting service | Manages access to AWS services and resources securely, including EKS cluster access. |
+| [Amazon Managed Grafana](https://aws.amazon.com/grafana/) (AMG) | Observability service | Provides fully managed  service for metrics visualization and monitoring. |
+| [Amazon Managed Service for Prometheus](https://aws.amazon.com/prometheus/) (AMP) | Observability service | Offers managed Prometheus-compatible monitoring for container metrics. |
+| [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) (ACM) | Security service | Manages SSL/TLS certificates for secure communication within the cluster. |
+| [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) | Monitoring service | Collects and tracks metrics, logs, and events from EKS and other AWS resources provisoned in the guidance |
+| [AWS Systems Manager](https://aws.amazon.com/systems-manager/) | Management service | Provides operational insights and takes action on AWS resources. |
+| [AWS Key Management Service](https://aws.amazon.com/kms/) (KMS) | Security service | Manages encryption keys for securing data in EKS and other AWS services. |
+
+## Plan your deployment
 
 ### Cost
 
@@ -135,7 +188,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
 ## Deployment Steps
 
 ### Clone Guidance repository 
-1. Log in to your AWS account on your CLI/shell through your preferred auth provider.
+1. Log in to your AWS account on your CLI/shell through your preferred authentication provider.
 2. Clone the repository:
 
     ```bash
@@ -180,6 +233,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
 5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (Wait a few minutes for the changes to propagate)
 <p align="center">
 <img src="assets/enable_identity_center.png" alt="Enable IAM Identity Center">
+Figure 4. Enable an organization instance of IAM Identity Center    
 </p>
 
 
@@ -225,7 +279,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
     - Set up the necessary IAM policies for AWS Transform for both groups
     - Create an Admin user using lambda functions in Identity Center based on a provided email
    
-**Note : The script uses the deployed Lambda functions to add the provided email as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added through the console following best practice.**
+**> Note : The script uses the deployed Lambda functions to add the provided email as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added through the console following best practice.**
 
 ## Deployment Validation
 
@@ -233,22 +287,31 @@ The workspace in which you create a job determines the AWS Region of the job. To
 * Open CloudFormation console and verify the status of the stacks
 <p align="center">
 <img src="assets/cfn_stack.png" alt="cfn stack status">
+Figure 5. Cloud Formation Stack Deployment Status    
 </p>
+
 * Open Identity Center and verify the created groups
 <p align="center">
 <img src="assets/idc_group.png" alt="idc groups">
+Figure 6. Verify Identity Center Groups    
 </p>
+
 * View the admin group and verify created user
 <p align="center">
 <img src="assets/admin_user.png" alt="admin user">
+Figure 7. View the Administrators Group and Verify Created User
 </p>
+
 * Make sure the groups can be added to AWS Transform
 <p align="center">
 <img src="assets/transform_group.png" alt="transform group">
+Figure 8. Verify that IDC groups can be added yo AWS Transform
 </p>
+
 * Make sure the start URL can be accessed by Admin user
 <p align="center">
 <img src="assets/transform_start.png" alt="transform start">
+Figure 9. Verify that Start URL can be accessed by Administrator User   
 </p>
 
 
@@ -268,15 +331,17 @@ When you no longer need to use the guidance, you should delete the AWS resources
 
 In the AWS Management Console, navigate to CloudFormation and locate the 2 guidance stacks deployed.
 Starting with the most recent stack (not including any nested stacks), select the stack and click Delete button:
+
 <p align="center">
 <img src="assets/cleanup_cfn.png" alt="delete stack">
+Figure 10. Deleting Cloud Formation Stacks for Cleanup     
 </p>
 
 
 ## Authors 
 
-Pranav Kumar,
-Patrick Kremer, 
-Kiran Reid, 
-Saood Usmani,
-Daniel Zilberman 
+Pranav Kumar, GenAi Labs Builder SA <br/>
+Patrick Kremer, Sr. Specialist SA, VMWare<br/>
+Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
+Saood Usmani, Technical Lead, AWS Solutions<br/>
+Daniel Zilberman, Sr. Specialist SA, AWS Solutions 
