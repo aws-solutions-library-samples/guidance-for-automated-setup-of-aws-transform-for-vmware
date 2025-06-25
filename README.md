@@ -137,22 +137,44 @@ VPCs (22) created by AWS Transform match your on-premises network segments, prov
 
 ## Plan your deployment
 
-### Cost
+### Cost Considerations 
 
-You are responsible for the cost of the AWS services used while running this Guidance. The following table provides a sample cost breakdown for the services deployed as part of this guidance. 
-**Note : We are not including cost of services used to run the guidance or variable subsequent compute cost of migrated servers.**
+When implementing this guidance on AWS, it's important to understand the various factors that contribute to the overall cost. This section outlines the primary cost components and key factors that influence pricing.
 
-### Cost Table
+### Cost Components 
 
-You are responsible for the cost of the AWS services used while running this Guidance. As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) is approximately $XXX per month for processing 100 migration scenarios.
+The total cost of running this solution can be broadly categorized into two main components:
+
+AWS Transform Costs: These are the charges incurred for using AWS Transform and associated services to modernize VMware workloads. 
+
+AWS Infrastructure Costs: These are the costs associated with the running the migrated networks and servers on AWS. These costs will be variable depending on the scale of networks and servers running on AWS. 
+
+### Customer Responsiblity 
+
+While this implementation guide provides default configurations, customers are responsible for:
+
+1. Configuring the solution to their optimal settings based on their specific use case and requirements.
+2. Monitoring and managing the costs incurred from running the modernized workloads on AWS. 
+
+Customers should regularly review their AWS service usage patterns, adjust configurations as needed, and leverage AWS cost management tools to optimize their spending.
+
+We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance.
+
+### Sample Cost Table 
+
+As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) is approximately $XXX per month for processing 100 migration scenarios.
 
 | AWS service  | Dimensions | Cost [USD] |
 | ----------- | ------------ | ------------ |
 | AWS IAM Identity Center | number of users  |  free |
 | AWS Organizations | number of accounts in organization | free |
 | Amazon Lambda | 1M requests | $0.20 |
-
-We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance.
+| AWS Transform | number of transformation jobs | free |
+| AWS Application Discovery Service | number of on-premise discovery servers | free |
+| AWS Migration Hub | discovery data storage and migration planning | free |
+| AWS Application Migration Service | cost during first 90 days (2,160 hours) of server replication | free |
+| Amazon EC2 | size and number of servers | variable |
+| AWS VPC | components and services | variable |
 
 ## Prerequisites
 
