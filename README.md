@@ -162,9 +162,13 @@ We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/la
 
 ### Sample Cost Table 
 
-As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) is approximately $XXX per month for processing 100 migration scenarios.
+As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) is free. 
 
-| AWS service  | Dimensions | Cost [USD] |
+Assumptions:
+
+Guidance covers the cost of using AWS Transform for VMware migrations. 
+
+| AWS Service  | Dimensions | Cost [USD] |
 | ----------- | ------------ | ------------ |
 | AWS IAM Identity Center | number of users  |  free |
 | AWS Organizations | number of accounts in organization | free |
@@ -172,9 +176,7 @@ As of June 2025, the cost for running this Guidance with the default settings in
 | AWS Transform | number of transformation jobs | free |
 | AWS Application Discovery Service | number of on-premise discovery servers | free |
 | AWS Migration Hub | discovery data storage and migration planning | free |
-| AWS Application Migration Service | cost during first 90 days (2,160 hours) of server replication | free |
-| Amazon EC2 | size and number of servers | variable |
-| AWS VPC | components and services | variable |
+| AWS Application Migration Service | cost during first 90 days (2,160 hours) of server replication is free Cost per hour (after free period) $0.042 per server Cost per month (after free period)	~$30 per server | free |
 
 ## Prerequisites
 
