@@ -32,7 +32,7 @@ Below is the Reference architecture for the guidance showing the core and suppor
 
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 1. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 1
+Figure 1. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 1
 <br/>    
 </p>
 <p align="left">
@@ -47,7 +47,7 @@ Figure 1. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare
 <br/>
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 2. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 2
+Figure 2. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 2
 <br/>
 </p>
 <p align="left">
@@ -65,7 +65,7 @@ Figure 2. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare
 
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 3. Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 3
+Figure 3. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 3
 <br/>
 </p>
 <p align="left">
@@ -123,15 +123,13 @@ VPCs (22) created by AWS Transform match your on-premises network segments, prov
 
 | **AWS Service** | **Role** | **Description** |
 |-----------------|----------|-----------------|
-| [Amazon Elastic Kubernetes Service](https://aws.amazon.com/eks/) ( EKS) | Core service | Manages the Kubernetes control plane and worker nodes for container orchestration. |
+| [Amazon Transform for VMWare](https://aws.amazon.com/transform/vmware) | Core service | Agentic AI service for modernizing VMware workloads at scale |
 | [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) | Core service | Provides the compute instances for EKS worker nodes and runs containerized applications. |
 | [Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/) (VPC) | Core Service | Creates an isolated network environment with public and private subnets across multiple Availability Zones. |
-| [Amazon Elastic Container Registry](http://aws.amazon.com/ecr/) (ECR) | Supporting service | Stores and manages Docker container images for EKS deployments. |
-| [Elastic Load Balancing](https://aws.amazon.com/elasticloadbalancing/) (NLB) | Supporting service | Distributes incoming traffic across multiple targets in the EKS cluster. |
+| [Amazon Application Discovery Service](https://aws.amazon.com/application-discovery/) | Supporting service | Discivers on-premises server inventory and behavior to plan cloud migrations |
+| [AWS Organizations](https://aws.amazon.com/organizations/) | Supporting service | Central manage AWS environment and AWS resources |
 | [Amazon Elastic Block Store](https://aws.amazon.com/ebs) (EBS) | Supporting service | Provides persistent block storage volumes for EC2 instances in the EKS cluster. |
-| [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) | Supporting service | Manages access to AWS services and resources securely, including EKS cluster access. |
-| [Amazon Managed Grafana](https://aws.amazon.com/grafana/) (AMG) | Observability service | Provides fully managed  service for metrics visualization and monitoring. |
-| [Amazon Managed Service for Prometheus](https://aws.amazon.com/prometheus/) (AMP) | Observability service | Offers managed Prometheus-compatible monitoring for container metrics. |
+| [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) | Supporting service | Manages access to AWS services and resources securely, including EKS cluster access. 
 | [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) (ACM) | Security service | Manages SSL/TLS certificates for secure communication within the cluster. |
 | [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) | Monitoring service | Collects and tracks metrics, logs, and events from EKS and other AWS resources provisoned in the guidance |
 | [AWS Systems Manager](https://aws.amazon.com/systems-manager/) | Management service | Provides operational insights and takes action on AWS resources. |
