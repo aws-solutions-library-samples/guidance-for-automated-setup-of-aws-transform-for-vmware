@@ -133,7 +133,7 @@ VPCs (22) created by AWS Transform match your on-premises network segments, prov
 | [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) (ACM) | Supporting service | Manages SSL/TLS certificates for secure communication within the cluster. |
 | [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) | Supporting service | Collects and tracks metrics, logs, and events from AWS resources provisoned in the guidance |
 | [Amazon CloudTrail](https://aws.amazon.com/cloudtrail/) | Supporting service | Logs API activities in AWS accounts, while AWS Transform service tracks migration activities|
-| [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/) (KMS) | Supporting service | Manages encryption keys for securing data in EKS and other AWS services. |
+| [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/) | Supporting service | Manages encryption keys for securing data in EKS and other AWS services. |
 | [AWS CloudFormation](https://aws.amazon.com/cloudformation/) | Supporting service| Speed up cloud provisioning with infrastructure as code. |
 | [Amazon Simple Storage Service (S3)](https://aws.amazon.com/s3/)  | S3 is an object storage service that store key migration agrifacts|
 | [Amazon Transit Gateway](https://aws.amazon.com/transit-gateway/)| Supporting service| Enables hub-and-spoke or isolated networking to connect multiple VPCs|
