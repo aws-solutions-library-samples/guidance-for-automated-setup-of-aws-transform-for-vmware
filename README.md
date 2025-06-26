@@ -168,11 +168,9 @@ We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/la
 
 ### Sample Cost Table 
 
-As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) is free. 
+As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) `us-east-1` is pretty much free. 
 
-Assumptions:
-
-Guidance covers the cost of using AWS Transform for VMware migrations. 
+>NOTE: The table below covers the cost of using AWS Transform for VMware migrations, not the cost of running EC2 and VPC resources that will be created as a result of executing a migration.
 
 | AWS Service  | Dimensions | Cost [USD] |
 | ----------- | ------------ | ------------ |
