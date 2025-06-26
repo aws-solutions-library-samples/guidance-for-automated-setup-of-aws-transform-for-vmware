@@ -12,7 +12,7 @@ This title correlates exactly to the Guidance it’s linked to, including its co
 
 1. [Overview](#overview)
     - [Architecture](#architecture)
-    - [Services in this guidance](#services-in-this-guidance)
+    - [Services in this guidance](#aws-services-in-this-guidance)
     - [Cost](#cost)
 1. [Prerequisites](#prerequisites)
     - [Operating System](#operating-system)
@@ -127,27 +127,33 @@ VPCs (22) created by AWS Transform match your on-premises network segments, prov
 | [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) | Core service | Provides the compute instances for EKS worker nodes and runs containerized applications. |
 | [Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/) (VPC) | Core Service | Creates an isolated network environment with public and private subnets across multiple Availability Zones. |
 | [Amazon Application Discovery Service](https://aws.amazon.com/application-discovery/) | Supporting service | Discivers on-premises server inventory and behavior to plan cloud migrations |
-| [AWS Organizations](https://aws.amazon.com/organizations/) | Supporting service | Central manage AWS environment and AWS resources |
-| [Amazon Elastic Block Store](https://aws.amazon.com/ebs) (EBS) | Supporting service | Provides persistent block storage volumes for EC2 instances in the EKS cluster. |
-| [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) | Supporting service | Manages access to AWS services and resources securely, including EKS cluster access. 
-| [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) (ACM) | Security service | Manages SSL/TLS certificates for secure communication within the cluster. |
-| [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) | Monitoring service | Collects and tracks metrics, logs, and events from EKS and other AWS resources provisoned in the guidance |
-| [AWS Systems Manager](https://aws.amazon.com/systems-manager/) | Management service | Provides operational insights and takes action on AWS resources. |
-| [AWS Key Management Service](https://aws.amazon.com/kms/) (KMS) | Security service | Manages encryption keys for securing data in EKS and other AWS services. |
+| [AWS Organizations](https://aws.amazon.com/organizations/) | Core service | Central manage AWS environment and AWS resources |
+| [Amazon Elastic Block Store](https://aws.amazon.com/ebs) (EBS) | Core service | Provides persistent block storage volumes for EC2 instances |
+| [AWS Identity and Access Management](https://aws.amazon.com/iam/) (IAM) | Core service | Manages access to AWS services and resources securely | 
+| [AWS Certificate Manager](https://aws.amazon.com/certificate-manager/) (ACM) | Supporting service | Manages SSL/TLS certificates for secure communication within the cluster. |
+| [Amazon CloudWatch](https://aws.amazon.com/cloudwatch/) | Supporting service | Collects and tracks metrics, logs, and events from AWS resources provisoned in the guidance |
+| [Amazon CloudTrail](https://aws.amazon.com/cloudtrail/) | Supporting service | Logs API activities in AWS accounts, while AWS Transform service tracks migration activities|
+| [AWS Key Management Service (KMS)](https://aws.amazon.com/kms/) (KMS) | Supporting service | Manages encryption keys for securing data in EKS and other AWS services. |
+| [AWS CloudFormation](https://aws.amazon.com/cloudformation/) | Supporting service| Speed up cloud provisioning with infrastructure as code. |
+| [Amazon Simple Storage Service (S3)](https://aws.amazon.com/s3/)  | S3 is an object storage service that store key migration agrifacts|
+| [Amazon Transit Gateway](https://aws.amazon.com/transit-gateway/)| Supporting service| Enables hub-and-spoke or isolated networking to connect multiple VPCs|
+| [Amazon VPC NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway/)| Supporting service| Enables internet access for private subnets in hub-and-spoke deployments only|
+| [AWS Application Migration Service](https://aws.amazon.com/application-migration-service/) | Supporting service| Replicates servers and launches test and cutover instances |
 
 ## Plan your deployment
 
-### Cost Considerations 
+### Cost
+**Cost Considerations:** 
 
 When implementing this guidance on AWS, it's important to understand the various factors that contribute to the overall cost. This section outlines the primary cost components and key factors that influence pricing.
 
-### Cost Components 
+**Cost Components:** 
 
 The total cost of running this solution can be broadly categorized into two main components:
 
-AWS Transform Costs: These are the charges incurred for using AWS Transform and associated services to modernize VMware workloads. 
+**AWS Transform Costs**: These are the charges incurred for using AWS Transform and associated services to modernize VMware workloads. 
 
-AWS Infrastructure Costs: These are the costs associated with the running the migrated networks and servers on AWS. These costs will be variable depending on the scale of networks and servers running on AWS. 
+**AWS Infrastructure Costs**: These are the costs associated with the running the migrated networks and servers on AWS. These costs will be variable depending on the scale of networks and servers running on AWS. 
 
 ### Customer Responsiblity 
 
@@ -182,7 +188,7 @@ Guidance covers the cost of using AWS Transform for VMware migrations.
 
 ### Third-party tools 
 
-The machine running this guidance needs to support BASH or PowerShell scripts. Alternatively, the parameters can be manually added to the CloudFormation YAML files. 
+The machine from which this guidance is deployed needs to support Linux BASH or PowerShell scripts. Alternatively, the parameters can be manually added to the CloudFormation YAML files. 
 
 ### AWS account requirements 
 
