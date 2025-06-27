@@ -32,53 +32,55 @@ Below is the Reference architecture for the guidance showing the core and suppor
 
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 1. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 1
-<br/>    
+<br/>
+Figure 1. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, part 1
 </p>
 <p align="left">
-1. On-premises VMware environment hosts the workloads to be migrated. RVTools can be used along by Administrator users with optional import/export functionality for customers running VMware NSX. 
-<br/>2. AWS agent and agentless discovery agents used (in addition to or instead of RVTools) to gather and collect data and dependencies for migration. AWS Replication Agent is used to migrate virtual machines to AWS.
-<br/>3. AWS Transform for VMware discovery workspaces are currently available in US East (N. Virginia) and Europe (Frankfurt), with workspace selection important for data residency compliance, though migrations can target a broader range of AWS regions globally.
-<br/>4. AWS Transform for VMware helps optimize infrastructure and reduce operational overhead, providing a more predictable, cost-efficient path to modernization.
-<br/>5. The Inventory Discovery capability collects data from the on-premises environment and stores it in the Discovery account's Amazon Simple Storage Service (S3) buckets
-<br/>6. The Network Migration capability translates on-premises network configurations to AWS equivalents (Amazon Virtual Private Cloud - VPC, Subnets, Security groups, Transit gateways, and more). It provides Infrastructure as Code through Amazon CloudFormation and AWS CDK templates and deploys them to a (*Migration*) Target AWS account. 
+1. Customer VMware environment hosts the workloads to be migrated. RVTools can be used along with optional import/export functionality for customers running VMware NSX. 
+<br/>2. AWS agent and agentless Discovery agents used (in addition to or instead of RVTools) to gather and collect data and dependencies for migration. AWS Replication Agent is used to migrate virtual machines to AWS.
+<br/>3. AWS Transform for VMware discovery workspaces are available globally. A full list of supported regions can be found [here](https://docs.aws.amazon.com/transform/latest/userguide/regions.html). 
+<br/>4. AWS Transform for VMware helps optimize infrastructure and reduce operational overhead, giving you a more predictable, cost-efficient path to modernization.
+<br/>5. The Inventory Discovery capability collects data from the on-premises environment and stores it in the Discovery account’s Amazon Simple Storage Service (S3) buckets.
+<br/>6. As part of AWS Transform, the Wave Planning capability uses Graph Neural Networks to analyze application dependencies and plan migration waves.
 </p>
 
 <br/>
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 2. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 2
 <br/>
+Figure 2. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, part 2
 </p>
+<br/>
 <p align="left">
 7. The AWS Migration Planning account hosts AWS Application Discovery Service (ADS) to collect, store, and process detailed infrastructure and application data for migration planning. The Discovery account provides secure isolation of collected infrastructure data and maintains separation of discovery and migration activities.
-<br/>8. AWS Key Management Service encrypts stored data, conversation history, and artifacts using either AWS managed keys by default or Customer Managed Keys (CMK) when configured.
-<br/>9. AWS Organizations enables centralized management of multiple AWS accounts, allowing hierarchical structuring through Organizational Units. 
-<br/>10. AWS CloudWatch monitors AWS Transform service activities, resource utilization, and operational metrics within the management account where the AWS Transform service is hosted. 
-<br/>11. AWS IAM Identity Center provides centralized access management across all AWS accounts!
-<br/>12. Amazon Simple Storage Service (S3) buckets in the Discovery account store RVTools exports, NSX configurations, and AWS Application Discovery Service collector data including system performance, running processes, and network connections.
-<br/>13. AWS CloudWatch .... logs
-<br/>14. AWS CloudTrail logs API activities performed within customer AWS accounts, while AWS Transform worklogs track detailed migration activities and operations.
-<br/>15. AWS Application Discovery Service collects server inventory and dependency data from on-premises environments to assist AWS Transform with application grouping and wave planning.
+<br/>8. AWS Key Management Service (KMS) encrypts data using AWS managed keys by default or optional Customer Managed Keys (CMK)
+<br/>9. AWS Organizations enables centralized management of AWS accounts through Organizational Units
+<br/>10. Amazon CloudWatch monitors AWS Transform activities, resources, and metrics in the management account
+<br/>11. AWS Identity and Access Management (IAM) Identity Center provides centralized access management across all AWS accounts. 
+<br/>12. Amazon S3 buckets in the Discovery account store key migration artifacts including inventory data, dependency mappings, wave plans, and application groupings in both the planning and discovery accounts.
+<br/>13. AWS CloudFormation automates resource provisioning across AWS accounts and regions for test and production environments.
+<br/>14. AWS CloudTrail logs API activities in AWS accounts, while AWS Transform service tracks migration activities.
+<br/>15. AWS ADS collects server inventory and dependencies to support application grouping and wave planning.
+<br/>16. AWS KMS encrypts Discovery account S3 buckets that store source environment data.
 </p>
 <br/>
 
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 3. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture part 3
+Figure 3. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, part 3
 <br/>
 </p>
 <p align="left">
-16. AWS Transform supports migrations to 12 target AWS regions, offering broader geographical support
-<br/>17. The AWS Target/Provisioning Account serves as the production environment where the migrated applications will reside, containing all target infrastructure and housing the production workloads after migration is complete.
-<br/>18. As part of AWS Transform the Wave Planning capability uses Graph Neural Networks to analyze application dependencies and plan migration waves
-<br/>19. AWS Transform orchestrates end-to-end migration by coordinating across various AWS tools and service. Server Migration capability utilizes AWS Application Migration Service to transfer servers to AWS
-<br/>20. Amazon Elastic Compute Cloud (EC2) and Amazon Elastic Block Store (EBS) serves as the target destination for migrated VMware virtual machines; AWS Transform recommends instance types based on source workload analysis.
-<br/>21. Amazon VPC provides isolated network environments that AWS Transform creates to match on-premises network segments.
-<br/>22. AWS Transit Gateway enables hub-and-spoke or Isolated networking that AWS Transform configures to connect multiple VPCs created during the migration process. 
-<br/>23. NAT gateway provides outbound internet access for private subnets that AWS Transform creates during network conversion. Created in hub-and-spoke deployment. Not created in isolated deployment
-<br/>24. AWS Application Migration Service replicates source servers to AWS and launches test and cutover EC2 instances based on preferences configured within AWS Transform.
-<br/>25. While used in the planning stages Amazon KMS, CloudWatch, CloudTrail, Identity and Access Management (IAM), CloudFormation and Amazon S3 are also used by MGN during the migration.  
+<br/>17. > NOTE: For the most up-to-date information on supported Regions, refer to [AWS Services by Region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
+<br/>18. The AWS Target/Provisioning Account hosts migrated applications and production workloads.    
+<br/>19. The Network Migration capability converts on-premises networks to AWS using AWS CloudFormation and AWS Cloud Development Kit templates.
+<br/>20. AWS Transform orchestrates end-to-end migration by coordinating across various AWS tools and service, including Server Migration/Rehost capability utilizing AWS Application Migration Service.
+<br/>21. Amazon Elastic Compute Cloud (EC2) and Amazon Elastic Block Store (EBS) host migrated VMware virtual machines with recommended instance types
+<br/>22. Amazon Virtual Private Cloud (VPC) provides isolated networks matching on-premises segments.
+<br/>23. AWS Transit Gateway enables hub-and-spoke or isolated networking to connect multiple VPCs
+<br/>24. Amazon VPC NAT gateway provides internet access for private subnets in hub-and-spoke deployments only.
+<br/>25. AWS Application Migration Service replicates servers and launches test and cutover instances.
+<br/>26. AWS KMS, Amazon CloudWatch, AWS CloudTrail, IAM Permissions, AWS CloudFormation, and S3 buckets in the Target account store Infrastructure as Code templates (AWS CloudFormation and AWS Cloud Development Kit - CDK) and per-wave migration plans.
 </p>
 
 <!--
