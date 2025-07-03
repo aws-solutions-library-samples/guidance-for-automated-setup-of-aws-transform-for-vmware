@@ -59,7 +59,7 @@ Below is the Reference architecture for the guidance showing the core and suppor
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
 <br/>
-Figure 1. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture (Part 1)
+Figure 1. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, part 1.
 </p>
 
 <br/>1. Customer VMware environment hosts the workloads to be migrated. RVTools can be used along with optional import/export functionality for customers running VMware NSX. 
@@ -69,7 +69,6 @@ A full list of supported AWS Regions can be found [here](https://docs.aws.amazon
 <br/>4. AWS Transform for VMware helps optimize infrastructure and reduce operational overhead, giving you a more predictable, cost-efficient path to modernization.
 <br/>5. The Inventory Discovery capability collects data from the on-premises environment and stores it in the Discovery account’s Amazon Simple Storage Service (S3) buckets.
 <br/>6. As part of AWS Transform, the Wave Planning capability uses Graph Neural Networks to analyze application dependencies and plan migration waves.
-
 <br/>
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMWare">
@@ -96,7 +95,7 @@ Figure 3. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference 
 </p>
 
 <br/>17. NOTE: For the most up-to-date information on supported Regions, refer to [AWS Services by Region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
-<br/>18. The AWS Target/Provisioning Account hosts migrated production workloads and applications.    
+<br/>18. The AWS Target/Provisioning Account hosts migrated production workloads and applications.
 <br/>19. The Network Migration capability converts on-premises networks to AWS using AWS CloudFormation and AWS Cloud Development Kit templates.
 <br/>20. AWS Transform orchestrates end-to-end migration by coordinating across various AWS tools and service, including Server Migration/Rehost capability utilizing AWS Application Migration Service.
 <br/>21. Amazon Elastic Compute Cloud (EC2) and Amazon Elastic Block Store (EBS) host migrated VMware virtual machines with recommended instance types
