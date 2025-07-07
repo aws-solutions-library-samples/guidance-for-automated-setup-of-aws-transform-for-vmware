@@ -1,5 +1,4 @@
-# Guidance for Migrating VMWare Workloads Using AWS Transform for VMWare on AWS
-
+# Guidance for automated setup for AWS Transform VMware on AWS
 
 ## Table of Contents
 
@@ -44,7 +43,7 @@ When it’s time to execute the migration, the Migration Agent orchestrates the 
 
 The AWS Provisioning/Target Account serves as the production environment where your migrated applications will reside. This account contains the target infrastructure and will house your production workloads after migration is complete. S3 buckets in this account store the CloudFormation templates used for infrastructure deployment, providing a smooth, consistent, and reliable setup process.
 
-**Flexible network configuration**
+6. **Flexible network configuration**
 AWS Transform for VMware offers two networking models to suit different requirements:
 
 - Hub-and-spoke model – AWS Transit Gateway connects virtual private clouds (VPCs) through a central hub VPC with shared NAT gateways. This model is ideal for centralized management and shared services.
@@ -94,7 +93,7 @@ Figure 3. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference 
 <br/>
 </p>
 
-<br/>17. >NOTE: For the most up-to-date information on supported Regions, refer to [AWS Services by Region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
+<br/>17. NOTE: For the most up-to-date information on supported Regions, refer to [AWS Services by Region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
 <br/>18. The AWS Target/Provisioning Account hosts migrated production workloads and applications.
 <br/>19. The Network Migration capability converts on-premises networks to AWS using AWS CloudFormation and AWS Cloud Development Kit templates.
 <br/>20. AWS Transform orchestrates end-to-end migration by coordinating across various AWS tools and service, including Server Migration/Rehost capability utilizing AWS Application Migration Service.
