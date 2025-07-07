@@ -94,7 +94,7 @@ Figure 3. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference 
 <br/>
 </p>
 
-<br/>17. NOTE: For the most up-to-date information on supported Regions, refer to [AWS Services by Region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
+<br/>17. >NOTE: For the most up-to-date information on supported Regions, refer to [AWS Services by Region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
 <br/>18. The AWS Target/Provisioning Account hosts migrated production workloads and applications.
 <br/>19. The Network Migration capability converts on-premises networks to AWS using AWS CloudFormation and AWS Cloud Development Kit templates.
 <br/>20. AWS Transform orchestrates end-to-end migration by coordinating across various AWS tools and service, including Server Migration/Rehost capability utilizing AWS Application Migration Service.
@@ -206,7 +206,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
 
 ### Phase 1: Set up AWS Organizations
 
-**Note : If you already have AWS Organizations enabled in your Management account, you can skip phase 1.**
+**>Note : If you already have AWS Organizations enabled in your Management account, you can skip phase 1.**
 
 3. Change directory to the source folder inside the guidance repository:
 
@@ -237,7 +237,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
         Enter template path [phase1-aws-organizations.yaml]: 
     ```
 
-    > Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.
+    >Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.
 
 5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (Wait a few minutes for the changes to propagate)
 <p align="center">
@@ -289,7 +289,7 @@ Figure 2. Enable an organization instance of IAM Identity Center
     - Set up the necessary IAM policies for AWS Transform for both groups
     - Create an Admin user using lambda functions in Identity Center based on a provided email
    
-**> Note : The script uses the deployed Lambda functions to add the provided email as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added through the console following best practice.**
+**>Note : The script uses the deployed Lambda functions to add the provided email as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added through the console following best practice.**
 
 ## Deployment Validation
 
@@ -332,8 +332,7 @@ Figure 7. Verify that Start URL can be accessed by Administrator User
 
 ## Running the Guidance
 
-> Note : Please make sure the discovery and target accounts have been added as members to the organization.
-
+>Note : Please make sure the discovery and target accounts have been added as members to the organization.
 
 Explore our self-guided demo to learn how AWS Transform for VMware Service streamlines your VMware workload modernization. See how it automates key processes including application discovery, dependency mapping, network translation, wave planning, and server migration—all while optimizing Amazon EC2 instance selection for peak performance:
 
