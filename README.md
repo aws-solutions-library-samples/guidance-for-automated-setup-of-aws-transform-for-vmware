@@ -80,7 +80,7 @@ Figure 2. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference 
 <br/>9. AWS Organizations enables centralized management of AWS accounts through Organizational Units
 <br/>10. Amazon CloudWatch monitors AWS Transform activities, resources, and metrics in the management account
 <br/>11. AWS Identity and Access Management (IAM) Identity Center provides centralized access management across all AWS accounts. 
-<br/>12. Amazon S3 buckets in the Discovery account store key migration artifacts including inventory data, dependency mappings, wave plans, and application groupings in both the planning and discovery accounts.
+<br/>12. Amazon S3 buckets in both the Planning and Discovery accounts store key migration artifacts including inventory data, dependency mappings, wave plans, and application groupings.
 <br/>13. AWS CloudFormation automates resource provisioning across AWS accounts and regions for test and production environments.
 <br/>14. AWS CloudTrail logs API activities in AWS accounts, while AWS Transform service tracks migration activities.
 <br/>15. AWS ADS collects server inventory and dependencies to support application grouping and wave planning.
