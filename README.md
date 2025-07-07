@@ -205,7 +205,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
 
 ### Phase 1: Set up AWS Organizations
 
-**>Note : If you already have AWS Organizations enabled in your Management account, you can skip phase 1.**
+>Note : If you already have AWS Organizations enabled in your Management account, you can skip Phase 1.
 
 3. Change directory to the source folder inside the guidance repository:
 
@@ -247,7 +247,7 @@ Figure 2. Enable an organization instance of IAM Identity Center
 
 
 ### Phase 2: Set up IAM Identity Center and AWS Transform for VMWare
-1. After enabling IAM Identity Center manually and waiting for it to propagate, run the second BASH script
+1. After enabling IAM Identity Center manually and waiting for updates to propagate, run the second BASH script
 
     Pass in the following parameters using the bash script:
         STACK_NAME: name of cloudformation stack.
