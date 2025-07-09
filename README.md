@@ -1,4 +1,4 @@
-# Guidance for automated setup for AWS Transform VMware on AWS
+# Guidance for automated setup for AWS Transform for VMware on AWS
 
 ## Table of Contents
 
@@ -145,7 +145,6 @@ While this implementation guide provides default configurations, customers are r
 2. Monitoring and managing the costs incurred from running the modernized workloads on AWS. 
 
 Customers should regularly review their AWS service usage patterns, adjust configurations as needed, and leverage AWS cost management tools to optimize their spending.
-
 We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) through [AWS Cost Explorer](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this Guidance.
 
 ### Sample Cost Table 
@@ -182,7 +181,7 @@ https://docs.aws.amazon.com/transform/latest/userguide/transform-limits.html
 ### Supported Regions 
 
 AWS Transform Supported Regions:
-https://docs.aws.amazon.com/transform/latest/userguide/regions.html
+Please currently supported regions [here](https://docs.aws.amazon.com/transform/latest/userguide/regions.html)
 
 You can create AWS Transform workspaces in the following AWS Regions. These Regions are enabled by default, meaning you don't need to enable them before use. 
 
@@ -245,7 +244,6 @@ The workspace in which you create a job determines the AWS Region of the job. To
 Figure 2. Enable an organization instance of IAM Identity Center    
 </p>
 
-
 ### Phase 2: Set up IAM Identity Center and AWS Transform for VMWare
 1. After enabling IAM Identity Center manually and waiting for updates to propagate, run the second BASH script
 
@@ -288,10 +286,9 @@ Figure 2. Enable an organization instance of IAM Identity Center
     - Set up the necessary IAM policies for AWS Transform for both groups
     - Create an Admin user using lambda functions in Identity Center based on a provided email
    
-**>Note : The script uses the deployed Lambda functions to add the provided email as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added through the console following best practice.**
+>Note : The script uses the deployed Lambda functions to add the provided email account as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added via the AWS console following best practices.
 
 ## Deployment Validation
-
 
 * Open CloudFormation console and verify the status of the stacks
 <p align="center">
@@ -331,19 +328,18 @@ Figure 7. Verify that Start URL can be accessed by Administrator User
 
 ## Running the Guidance
 
->Note : Please make sure the discovery and target accounts have been added as members to the organization.
+>Note : Please make sure the Discovery and Target AWS accounts have been added as members to the organization.
 
-Explore our self-guided demo to learn how AWS Transform for VMware Service streamlines your VMware workload modernization. See how it automates key processes including application discovery, dependency mapping, network translation, wave planning, and server migration—all while optimizing Amazon EC2 instance selection for peak performance:
+Please feel free to explore our self-guided [demo](https://aws.storylane.io/share/qye0se68an9i) to learn how AWS Transform for VMware Service streamlines your VMware workload modernization. See how it automates key processes including application discovery, dependency mapping, network translation, wave planning, and server migration—all while optimizing Amazon EC2 instance selection for peak performance:
 
 https://aws.storylane.io/share/qye0se68an9i
-
 
 ## Cleanup
 
 When you no longer need to use the guidance, you should delete the AWS resources deployed by it in order to prevent ongoing charges for their use.
 
 In the AWS Management Console, navigate to CloudFormation and locate the 2 guidance stacks deployed.
-Starting with the most recent stack (not including any nested stacks), select the stack and click Delete button:
+Starting with the most recent stack (not including any nested stacks), select the stack and click `Delete` button:
 
 <p align="center">
 <img src="assets/cleanup_cfn.png" alt="delete stack">
