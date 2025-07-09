@@ -58,7 +58,7 @@ Below is the Reference architecture for the guidance showing the core and suppor
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
 <br/>
-Figure 1. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, part 1.
+Figure 1. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, phase 1.
 </p>
 
 <br/>1. Customer VMware environment hosts the workloads to be migrated. RVTools can be used along with optional import/export functionality for customers running VMware NSX. 
@@ -72,7 +72,7 @@ A full list of supported AWS Regions can be found [here](https://docs.aws.amazon
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMWare">
 <br/>
-Figure 2. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, part 2
+Figure 2. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, phase 2
 </p>
 <br/>
 7. The AWS Migration Planning account hosts AWS Application Discovery Service (ADS) to collect, store, and process detailed infrastructure and application data for migration planning. The Discovery account provides secure isolation of collected infrastructure data and maintains separation of discovery and migration activities.
@@ -89,7 +89,7 @@ Figure 2. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference 
 <br/>
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 3. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, part 3
+Figure 3. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, phase 3
 <br/>
 </p>
 
