@@ -1,4 +1,4 @@
-# Guidance for Automated Setup of AWS Transform for VMware on AWS
+# Guidance for Automated Setup of AWS Transform for VMware
 
 ## Table of Contents
 
