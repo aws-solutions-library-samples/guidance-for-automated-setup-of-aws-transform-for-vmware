@@ -1,4 +1,4 @@
-# Guidance for automated setup for AWS Transform for VMware on AWS
+# Guidance for Automated Setup of AWS Transform for VMware on AWS
 
 ## Table of Contents
 
@@ -350,7 +350,7 @@ Figure 8. Deleting Guidance Cloud Formation Stacks
 
 ## Authors 
 
-Pranav Kumar, GenAi Labs Builder SA <br/>
+Pranav Kumar, GenAI Labs Builder SA <br/>
 Patrick Kremer, Sr. Specialist SA, VMWare<br/>
 Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
