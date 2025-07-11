@@ -250,11 +250,7 @@ Resources:
                   - identitystore:CreateUser
                   - identitystore:CreateGroup
                   - identitystore:CreateGroupMembership
-                  - identitystore:ListUsers
-                  - identitystore:ListGroups
-                  - identitystore:DescribeUser
-                  - identitystore:DescribeGroup
-                Resource: '*'
+                Resource: !Sub 'arn:aws:identitystore::${AccountNumber}:identitystore/${IdentityStoreId}'
 
   # Lambda function to create Identity Center Group
   CreateIdentityCenterGroupFunction:
