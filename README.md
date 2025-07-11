@@ -58,7 +58,7 @@ Below is the Reference architecture for the guidance showing the core and suppor
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
 <br/>
-Figure 1. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, phase 1.
+Figure 1. Automated Setup of AWS Transform for VMware -  Environment setup and Access configuration.
 </p>
 
 <br/>1. Customer VMware environment hosts the workloads to be migrated. RVTools can be used along with optional import/export functionality for customers running VMware NSX. 
@@ -72,7 +72,7 @@ A full list of supported AWS Regions can be found [here](https://docs.aws.amazon
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMWare">
 <br/>
-Figure 2. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, phase 2
+Figure 2. Automated Setup of AWS Transform for VMware - Data collection and initial migration planning.
 </p>
 <br/>
 7. The AWS Migration Planning account hosts AWS Application Discovery Service (ADS) to collect, store, and process detailed infrastructure and application data for migration planning. The Discovery account provides secure isolation of collected infrastructure data and maintains separation of discovery and migration activities.
@@ -89,11 +89,11 @@ Figure 2. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference 
 <br/>
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMWare">
-Figure 3. Migrating VMWare Workloads Using AWS Transform for VMWare - Reference Architecture, phase 3
+Figure 3. Automated Setup of AWS Transform for VMware - Workload migration and network conversion to AWS
 <br/>
 </p>
 
-<br/>17. NOTE: For the most up-to-date information on supported Regions, refer to [AWS Services by Region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
+<br/>17. **NOTE**: For the most up-to-date information on supported Regions, please refer to [AWS Services by Region](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
 <br/>18. The AWS Target/Provisioning Account hosts migrated production workloads and applications.
 <br/>19. The Network Migration capability converts on-premises networks to AWS using AWS CloudFormation and AWS Cloud Development Kit templates.
 <br/>20. AWS Transform orchestrates end-to-end migration by coordinating across various AWS tools and service, including Server Migration/Rehost capability utilizing AWS Application Migration Service.
@@ -212,12 +212,12 @@ The workspace in which you create a job determines the AWS Region of the job. To
     cd guidance-for-automating-aws-transformations-vmware-deployment/source
     ```
 
-4. Start by running the first bash script. This creates an AWS Organization with all features enabled.
+4. Start by running the first shell script. This creates an AWS Organization with all features enabled.
 
-    Pass in the following paramters to the second bash script:
+    Pass in the following paramters to the second shell script:
 
     - STACK_NAME: name of cloudformation stack.
-    - TEMPLATE_PATH: path to phase2 yaml.
+    - TEMPLATE_PATH: path to `phase2-idc.yaml`.
 
     BASH
 
@@ -241,7 +241,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
 <p align="center">
 <img src="assets/enable_identity_center.png" alt="Enable IAM Identity Center">
 <br/>    
-Figure 2. Enable an organization instance of IAM Identity Center    
+Figure 2. Enable an Organization instance of IAM Identity Center    
 </p>
 
 ### Phase 2: Set up IAM Identity Center and AWS Transform for VMWare
@@ -280,7 +280,6 @@ Figure 2. Enable an organization instance of IAM Identity Center
         Found Identity Store ID: d-40338374bc
     ```
     
-
     This script will:
     - Create IAM Identity Center groups and users
     - Set up the necessary IAM policies for AWS Transform for both groups
@@ -290,21 +289,21 @@ Figure 2. Enable an organization instance of IAM Identity Center
 
 ## Deployment Validation
 
-* Open CloudFormation console and verify the status of the stacks
+* Open CloudFormation in AWS console and verify the status of the stacks
 <p align="center">
 <img src="assets/cfn_stack.png" alt="cfn stack status">
 <br/>
-Figure 3. Cloud Formation Stack Deployment Status    
+Figure 3. Guidance Cloud Formation Stack Deployment Status    
 </p>
 
-* Open Identity Center and verify the created groups
+* Open Identity Center and verify the created groups created:
 <p align="center">
 <img src="assets/idc_group.png" alt="idc groups">
 <br/>
 Figure 4. Verify Identity Center Groups    
 </p>
 
-* View the admin group and verify created user
+* Review the admin group and verify created user
 <p align="center">
 <img src="assets/admin_user.png" alt="admin user">
 <br/>
@@ -315,7 +314,7 @@ Figure 5. View the Administrators Group and Verify Created User
 <p align="center">
 <img src="assets/transform_group.png" alt="transform group">
 <br/>
-Figure 6. Verify that IDC groups can be added yo AWS Transform
+Figure 6. Verify that IDC groups can be added to AWS Transform
 </p>
 
 * Make sure the start URL can be accessed by Admin user
@@ -328,15 +327,15 @@ Figure 7. Verify that Start URL can be accessed by Administrator User
 
 ## Running the Guidance
 
->Note : Please make sure the Discovery and Target AWS accounts have been added as members to the organization.
+>Note : Please make sure the Discovery and Target AWS accounts have been added as members to the AWS Organization.
 
 Please feel free to explore our self-guided [demo](https://aws.storylane.io/share/qye0se68an9i) to learn how AWS Transform for VMware Service streamlines your VMware workload modernization. See how it automates key processes including application discovery, dependency mapping, network translation, wave planning, and server migration—all while optimizing Amazon EC2 instance selection for peak performance:
 
-https://aws.storylane.io/share/qye0se68an9i
+**https://aws.storylane.io/share/qye0se68an9i**
 
 ## Cleanup
 
-When you no longer need to use the guidance, you should delete the AWS resources deployed by it in order to prevent ongoing charges for their use.
+When you no longer need to use the guidance, you should delete the AWS resources deployed by it in order to prevent ongoing charges for their usage.
 
 In the AWS Management Console, navigate to CloudFormation and locate the 2 guidance stacks deployed.
 Starting with the most recent stack (not including any nested stacks), select the stack and click `Delete` button:
@@ -346,7 +345,6 @@ Starting with the most recent stack (not including any nested stacks), select th
 <br/>
 Figure 8. Deleting Guidance Cloud Formation Stacks    
 </p>
-
 
 ## Authors 
 
