@@ -260,7 +260,7 @@ Figure 2. Enable an Organization instance of IAM Identity Center
         source % ./deploy-phase2.sh
         Enter stack name [aws-transform-setup]:
         Enter template path: [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase2-idc.yaml]:
-        Enter AWS account number: 123456789012
+        Enter AWS account number: 1234567XXXXX
         Enter admin email address: admin@amazon.com
         Enter Identity Center ID: ssoins-1234a123b1d5ab3f
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
@@ -273,7 +273,7 @@ Figure 2. Enable an Organization instance of IAM Identity Center
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase2.ps1
         Enter stack name [aws-transform-setup]:
         Enter template path [phase2-idc.yaml]:
-        Enter AWS account number: 123456789012
+        Enter AWS account number: 1234567XXXXX
         Enter admin email address: admin@amazon.com 
         Enter Identity Center ID: ssoins-1234a123b1d5ab3f
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
@@ -335,6 +335,8 @@ Please feel free to explore our self-guided [demo](https://aws.storylane.io/shar
 **https://aws.storylane.io/share/qye0se68an9i**
 
 Please see the [official documentation](https://docs.aws.amazon.com/transform/latest/userguide/transform-app-vmware.html) of AWS Transform for VMware for details of using the Service.
+
+### Troubleshooting 
 
 ## Cleanup
 
