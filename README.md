@@ -334,7 +334,7 @@ Please feel free to explore our self-guided [demo](https://aws.storylane.io/shar
 
 **https://aws.storylane.io/share/qye0se68an9i**
 
-Please see the [official documentation](https://docs.aws.amazon.com/transform/latest/userguide/transform-app-vmware.html) for AWS Transform for VMware for details of using the Service.
+Please see the [official documentation](https://docs.aws.amazon.com/transform/latest/userguide/transform-app-vmware.html) of AWS Transform for VMware for details of using the Service.
 
 ## Cleanup
 
