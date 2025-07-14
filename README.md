@@ -215,19 +215,18 @@ The workspace in which you create a job determines the AWS Region of the job. To
 4. Start by running the first shell script. This creates an AWS Organization with all features enabled.
 
     Pass in the following paramters to the second shell script:
+    <br/>
+    - STACK_NAME: {name of CloudFormation stack}.
+    - TEMPLATE_PATH: {path to `phase2-idc.yaml`}.
 
-    - STACK_NAME: name of cloudformation stack.
-    - TEMPLATE_PATH: path to `phase2-idc.yaml`.
-
-    BASH
+    BASH:
 
     ```bash
     source % ./deploy-phase1.sh
     Enter stack name [aws-org-setup]: aws-org-setup-example
     Enter template path [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml]:
     ```
-
-    PowerShell
+    PowerShell:
 
     ```powershell
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase1.ps1
@@ -237,7 +236,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
 
     >Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.
 
-5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (Wait a few minutes for the changes to propagate)
+5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (wait a few minutes for the changes to propagate) as shown below:
 <p align="center">
 <img src="assets/enable_identity_center.png" alt="Enable IAM Identity Center">
 <br/>    
@@ -246,15 +245,15 @@ Figure 2. Enable an Organization instance of IAM Identity Center
 
 ### Phase 2: Set up IAM Identity Center for AWS Transform for VMware
 1. After enabling IAM Identity Center manually and waiting for updates to propagate, run the second BASH script
-
     Pass in the following parameters using the bash script:
-        STACK_NAME: name of cloudformation stack.
-        TEMPLATE_PATH: path to phase2 yaml.
-        ACCOUNT_NUMBER: AWS account number.
-        IDENTITY_CENTER_ID: AWS Identity Center ID.
-        ADMIN_EMAIL: Email for admin user provisioned by script.
+   <br/>
+      <br/>  STACK_NAME: {name of cloudformation stack}.
+      <br/>  TEMPLATE_PATH: {path to phase2 yaml}.
+      <br/>  ACCOUNT_NUMBER: {AWS account number}.
+      <br/>  IDENTITY_CENTER_ID: {AWS Identity Center ID}.
+      <br/>  ADMIN_EMAIL: {Email for admin user provisioned by script}.
 
-    BASH
+    BASH:
 
     ```bash
         source % ./deploy-phase2.sh
@@ -267,7 +266,7 @@ Figure 2. Enable an Organization instance of IAM Identity Center
         Found Identity Store ID: d-40338374bc
     ```
 
-    PowerShell
+    PowerShell:
 
     ```powershell
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase2.ps1
