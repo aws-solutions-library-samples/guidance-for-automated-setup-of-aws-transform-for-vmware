@@ -149,7 +149,7 @@ We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/la
 
 ### Sample Cost Table 
 
-As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) `us-east-1` is pretty much free. 
+As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) `us-east-1` is nearly free. 
 
 >NOTE: The table below covers the cost of using AWS Transform for VMware migrations, not the cost of running EC2 and VPC resources that will be created as a result of executing a migration.
 
@@ -244,7 +244,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
 Figure 2. Enable an Organization instance of IAM Identity Center    
 </p>
 
-### Phase 2: Set up IAM Identity Center and AWS Transform for VMware
+### Phase 2: Set up IAM Identity Center for AWS Transform for VMware
 1. After enabling IAM Identity Center manually and waiting for updates to propagate, run the second BASH script
 
     Pass in the following parameters using the bash script:
@@ -324,6 +324,7 @@ Figure 6. Verify that IDC groups can be added to AWS Transform
 Figure 7. Verify that Start URL can be accessed by Administrator User   
 </p>
 
+At this point all of the pre-requisites are complete and you are ready now to use AWS Transform for VMware.  
 
 ## Running the Guidance
 
@@ -332,6 +333,8 @@ Figure 7. Verify that Start URL can be accessed by Administrator User
 Please feel free to explore our self-guided [demo](https://aws.storylane.io/share/qye0se68an9i) to learn how AWS Transform for VMware Service streamlines your VMware workload modernization. See how it automates key processes including application discovery, dependency mapping, network translation, wave planning, and server migration—all while optimizing Amazon EC2 instance selection for peak performance:
 
 **https://aws.storylane.io/share/qye0se68an9i**
+
+Please see the [official documentation](https://docs.aws.amazon.com/transform/latest/userguide/transform-app-vmware.html) for AWS Transform for VMware for details of using the Service.
 
 ## Cleanup
 
