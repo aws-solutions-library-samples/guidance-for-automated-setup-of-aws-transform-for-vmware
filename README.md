@@ -56,7 +56,7 @@ VPCs created by AWS Transform match your on-premises network segments, providing
 Below is the Reference architecture for the guidance showing the core and supporting AWS services: 
 
 <p align="center">
-<img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
+<img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMware">
 <br/>
 Figure 1. Automated Setup of AWS Transform for VMware -  Environment setup and Access configuration.
 </p>
@@ -70,7 +70,7 @@ A full list of supported AWS Regions can be found [here](https://docs.aws.amazon
 <br/>6. As part of AWS Transform, the Wave Planning capability uses Graph Neural Networks to analyze application dependencies and plan migration waves.
 <br/>
 <p align="center">
-<img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMWare">
+<img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMware">
 <br/>
 Figure 2. Automated Setup of AWS Transform for VMware - Data collection and initial migration planning.
 </p>
@@ -88,7 +88,7 @@ Figure 2. Automated Setup of AWS Transform for VMware - Data collection and init
 
 <br/>
 <p align="center">
-<img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMWare">
+<img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMware">
 Figure 3. Automated Setup of AWS Transform for VMware - Workload migration and network conversion to AWS
 <br/>
 </p>
@@ -105,7 +105,7 @@ Figure 3. Automated Setup of AWS Transform for VMware - Workload migration and n
 
 | **AWS Service** | **Role** | **Description** |
 |-----------------|----------|-----------------|
-| [Amazon Transform for VMWare](https://aws.amazon.com/transform/vmware) | Core service | Agentic AI service for modernizing VMware workloads at scale |
+| [Amazon Transform for VMware](https://aws.amazon.com/transform/vmware) | Core service | Agentic AI service for modernizing VMware workloads at scale |
 | [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) | Core service | Provides the compute instances for EKS worker nodes and runs containerized applications. |
 | [Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/) (VPC) | Core Service | Creates an isolated network environment with public and private subnets across multiple Availability Zones. |
 | [Amazon Application Discovery Service](https://aws.amazon.com/application-discovery/) | Supporting service | Discivers on-premises server inventory and behavior to plan cloud migrations |
@@ -244,7 +244,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
 Figure 2. Enable an Organization instance of IAM Identity Center    
 </p>
 
-### Phase 2: Set up IAM Identity Center and AWS Transform for VMWare
+### Phase 2: Set up IAM Identity Center and AWS Transform for VMware
 1. After enabling IAM Identity Center manually and waiting for updates to propagate, run the second BASH script
 
     Pass in the following parameters using the bash script:
@@ -349,7 +349,7 @@ Figure 8. Deleting Guidance Cloud Formation Stacks
 ## Authors 
 
 Pranav Kumar, GenAI Labs Builder SA <br/>
-Patrick Kremer, Sr. Specialist SA, VMWare<br/>
+Patrick Kremer, Sr. Specialist SA, VMware<br/>
 Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
 Daniel Zilberman, Sr. Specialist SA, AWS Solutions 
