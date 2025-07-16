@@ -47,185 +47,6 @@ Parameters:
     # You'll need to provide this value when deploying
 
 Resources:
-  # User Policy for AWS Transform
-  TransformUserPolicy:
-    Type: AWS::IAM::ManagedPolicy
-    Properties:
-      Description: Allows users to view their own permissions for AWS Transform
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Sid: ViewOwnUserInfo
-            Effect: Allow
-            Action:
-              - iam:GetUserPolicy
-              - iam:ListGroupsForUser
-              - iam:ListAttachedUserPolicies
-              - iam:ListUserPolicies
-              - iam:GetUser
-            Resource: "arn:aws:iam::*:user/*"
-          - Sid: NavigateInConsole
-            Effect: Allow
-            Action:
-              - iam:GetGroupPolicy
-              - iam:GetPolicyVersion
-              - iam:GetPolicy
-              - iam:ListAttachedGroupPolicies
-              - iam:ListGroupPolicies
-              - iam:ListPolicyVersions
-              - iam:ListPolicies
-              - iam:ListUsers
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - transform:ListProfiles
-            Resource: '*'
-
-  # Admin Policy for AWS Transform
-  TransformAdminPolicy:
-    Type: AWS::IAM::ManagedPolicy
-    Properties:
-      Description: Allows administrators to manage AWS Transform
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          # Accept connector request permissions
-          - Effect: Allow
-            Action:
-              - transform:GetConnector
-              - transform:AssociateConnectorResource
-              - transform:RejectConnector
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - s3:GetBucketPublicAccessBlock
-              - s3:GetAccountPublicAccessBlock
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - iam:CreateRole
-              - iam:AttachRolePolicy
-              - iam:PassRole
-            Resource: !Sub 'arn:aws:iam::${AccountNumber}:role/service-role/AWSTransform-*'
-          - Effect: Allow
-            Action:
-              - iam:CreatePolicy
-            Resource: !Sub 'arn:aws:iam::${AccountNumber}:policy/service-role/AWSTransform-*'
-          
-          # Manage IAM Identity Center users permissions
-          - Effect: Allow
-            Action:
-              - transform:ListProfiles
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - organizations:ListAWSServiceAccessForOrganization
-              - organizations:DescribeOrganization
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - sso:ListApplications
-              - sso:ListInstances
-              - sso:DescribeRegisteredRegions
-              - sso:GetSharedSsoConfiguration
-              - sso:DescribeInstance
-              - sso:DescribeApplication
-              - sso:GetSSOStatus
-              - sso:CreateApplicationAssignment
-              - sso:DeleteApplicationAssignment
-              - sso:ListApplicationAssignments
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - sso-directory:CreateUser
-              - sso-directory:DescribeUsers
-              - sso-directory:DescribeGroups
-              - sso-directory:SearchGroups
-              - sso-directory:SearchUsers
-              - sso-directory:DescribeGroup
-              - sso-directory:DescribeUser
-              - sso-directory:DescribeDirectory
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - identitystore:CreateUser
-              - identitystore:ListUsers
-              - identitystore:ListGroups
-            Resource: '*'
-          
-          # Enable AWS Transform permissions
-          - Effect: Allow
-            Action:
-              - sso:ListInstances
-              - sso:CreateInstance
-              - sso:CreateApplication
-              - sso:PutApplicationAuthenticationMethod
-              - sso:PutApplicationGrant
-              - sso:PutApplicationAssignmentConfiguration
-              - sso:ListApplications
-              - sso:GetSharedSsoConfiguration
-              - sso:DescribeInstance
-              - sso:PutApplicationAccessScope
-              - sso:DescribeApplication
-              - sso:DeleteApplication
-              - sso:UpdateApplication
-              - sso:DescribeRegisteredRegions
-              - sso:GetSSOStatus
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - sso-directory:GetUserPoolInfo
-              - sso-directory:DescribeUsers
-              - sso-directory:DescribeGroups
-              - sso-directory:SearchGroups
-              - sso-directory:SearchUsers
-              - sso-directory:DescribeDirectory
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - organizations:DescribeAccount
-              - organizations:DescribeOrganization
-              - organizations:ListAWSServiceAccessForOrganization
-              - organizations:DisableAWSServiceAccess
-              - organizations:EnableAWSServiceAccess
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - kms:ListAliases
-              - kms:CreateGrant
-              - kms:Encrypt
-              - kms:Decrypt
-              - kms:GenerateDataKey*
-              - kms:RetireGrant
-              - kms:DescribeKey
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - iam:CreateServiceLinkedRole
-            Resource: 'arn:aws:iam::*:role/aws-service-role/transform.amazonaws.com/AWSServiceRoleForAWSTransform'
-          - Effect: Allow
-            Action:
-              - transform:UpdateProfile
-              - transform:ListProfiles
-              - transform:CreateProfile
-              - transform:DeleteProfile
-            Resource: '*'
-                
-  # AWS Transform Service Role
-  TransformServiceRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: transform.amazonaws.com
-            Action: sts:AssumeRole
-      ManagedPolicyArns:
-        - !Ref TransformAdminPolicy
-      Path: /service-role/
-      RoleName: !Sub 'AWSTransform-ServiceRole-${AWS::Region}'
 
   # IAM Role for Identity Center Lambda functions
   IdentityCenterLambdaRole:
@@ -250,13 +71,17 @@ Resources:
                   - identitystore:CreateUser
                   - identitystore:CreateGroup
                   - identitystore:CreateGroupMembership
-                Resource: !Sub 'arn:aws:identitystore::${AccountNumber}:identitystore/${IdentityStoreId}'
+                  - identitystore:ListUsers
+                  - identitystore:ListGroups
+                  - identitystore:DescribeUser
+                  - identitystore:DescribeGroup
+                Resource: '*'
 
   # Lambda function to create Identity Center Group
   CreateIdentityCenterGroupFunction:
     Type: AWS::Lambda::Function
     Properties:
-      Runtime: python3.9
+      Runtime: python3.12
       Handler: index.handler
       Role: !GetAtt IdentityCenterLambdaRole.Arn
       Code:
@@ -265,6 +90,7 @@ Resources:
           import cfnresponse
           import logging
           import time
+          import botocore
           
           logger = logging.getLogger()
           logger.setLevel(logging.INFO)
@@ -278,6 +104,34 @@ Resources:
                 display_name = event['ResourceProperties']['DisplayName']
                 description = event['ResourceProperties'].get('Description', '')
                 
+                # First check if the group already exists
+                identity_store = boto3.client('identitystore')
+                
+                # Try to find the group by display name
+                try:
+                  logger.info(f"Checking if group {display_name} already exists")
+                  existing_groups = identity_store.list_groups(
+                    IdentityStoreId=identity_store_id,
+                    Filters=[
+                      {
+                        'AttributePath': 'DisplayName',
+                        'AttributeValue': display_name
+                      }
+                    ]
+                  )
+                  
+                  if existing_groups.get('Groups', []):
+                    # Group already exists, return its ID
+                    group = existing_groups['Groups'][0]
+                    group_id = group['GroupId']
+                    logger.info(f"Group {display_name} already exists with ID {group_id}")
+                    cfnresponse.send(event, context, cfnresponse.SUCCESS, 
+                                    {'GroupId': group_id, 'DisplayName': display_name})
+                    return
+                except Exception as e:
+                  logger.warning(f"Error checking for existing group: {str(e)}")
+                  # Continue with creation attempt
+                
                 # Add retry logic for creating groups
                 max_retries = 3
                 retry_count = 0
@@ -285,7 +139,6 @@ Resources:
                 
                 while retry_count < max_retries and not success:
                   try:
-                    identity_store = boto3.client('identitystore')
                     response = identity_store.create_group(
                       IdentityStoreId=identity_store_id,
                       DisplayName=display_name,
@@ -298,7 +151,32 @@ Resources:
                     
                     cfnresponse.send(event, context, cfnresponse.SUCCESS, 
                                     {'GroupId': group_id, 'DisplayName': display_name})
-                  except Exception as e:
+                  except botocore.exceptions.ClientError as e:
+                    error_code = e.response.get('Error', {}).get('Code', '')
+                    if error_code == 'ResourceAlreadyExistsException' or 'Duplicate GroupDisplayName' in str(e):
+                      # Group already exists but we couldn't find it earlier
+                      # Try to get it again
+                      try:
+                        existing_groups = identity_store.list_groups(
+                          IdentityStoreId=identity_store_id,
+                          Filters=[
+                            {
+                              'AttributePath': 'DisplayName',
+                              'AttributeValue': display_name
+                            }
+                          ]
+                        )
+                        
+                        if existing_groups.get('Groups', []):
+                          group = existing_groups['Groups'][0]
+                          group_id = group['GroupId']
+                          logger.info(f"Found existing group {display_name} with ID {group_id}")
+                          cfnresponse.send(event, context, cfnresponse.SUCCESS, 
+                                          {'GroupId': group_id, 'DisplayName': display_name})
+                          return
+                      except Exception as inner_e:
+                        logger.warning(f"Error finding existing group after creation failure: {str(inner_e)}")
+                    
                     logger.warning(f"Error creating group (retry {retry_count}): {str(e)}")
                     retry_count += 1
                     if retry_count < max_retries:
@@ -321,7 +199,7 @@ Resources:
   CreateIdentityCenterUserFunction:
     Type: AWS::Lambda::Function
     Properties:
-      Runtime: python3.9
+      Runtime: python3.12
       Handler: index.handler
       Role: !GetAtt IdentityCenterLambdaRole.Arn
       Code:
@@ -330,6 +208,7 @@ Resources:
           import cfnresponse
           import logging
           import time
+          import botocore
           
           logger = logging.getLogger()
           logger.setLevel(logging.INFO)
@@ -345,6 +224,48 @@ Resources:
                 first_name = event['ResourceProperties']['FirstName']
                 last_name = event['ResourceProperties']['LastName']
                 
+                # First check if the user already exists
+                identity_store = boto3.client('identitystore')
+                
+                # Try to find the user by username or email
+                try:
+                  logger.info(f"Checking if user {user_name} already exists")
+                  
+                  # Try by username
+                  existing_users = identity_store.list_users(
+                    IdentityStoreId=identity_store_id,
+                    Filters=[
+                      {
+                        'AttributePath': 'UserName',
+                        'AttributeValue': user_name
+                      }
+                    ]
+                  )
+                  
+                  if not existing_users.get('Users', []):
+                    # Try by email
+                    existing_users = identity_store.list_users(
+                      IdentityStoreId=identity_store_id,
+                      Filters=[
+                        {
+                          'AttributePath': 'Emails.Value',
+                          'AttributeValue': email
+                        }
+                      ]
+                    )
+                  
+                  if existing_users.get('Users', []):
+                    # User already exists, return its ID
+                    user = existing_users['Users'][0]
+                    user_id = user['UserId']
+                    logger.info(f"User {user_name} already exists with ID {user_id}")
+                    cfnresponse.send(event, context, cfnresponse.SUCCESS, 
+                                    {'UserId': user_id, 'UserName': user_name})
+                    return
+                except Exception as e:
+                  logger.warning(f"Error checking for existing user: {str(e)}")
+                  # Continue with creation attempt
+                
                 # Add retry logic for creating users
                 max_retries = 3
                 retry_count = 0
@@ -352,7 +273,6 @@ Resources:
                 
                 while retry_count < max_retries and not success:
                   try:
-                    identity_store = boto3.client('identitystore')
                     response = identity_store.create_user(
                       IdentityStoreId=identity_store_id,
                       UserName=user_name,
@@ -376,7 +296,45 @@ Resources:
                     
                     cfnresponse.send(event, context, cfnresponse.SUCCESS, 
                                     {'UserId': user_id, 'UserName': user_name})
-                  except Exception as e:
+                  except botocore.exceptions.ClientError as e:
+                    error_code = e.response.get('Error', {}).get('Code', '')
+                    if error_code == 'ResourceAlreadyExistsException' or 'already exists' in str(e).lower():
+                      # User already exists but we couldn't find it earlier
+                      # Try to get it again
+                      try:
+                        # Try by username
+                        existing_users = identity_store.list_users(
+                          IdentityStoreId=identity_store_id,
+                          Filters=[
+                            {
+                              'AttributePath': 'UserName',
+                              'AttributeValue': user_name
+                            }
+                          ]
+                        )
+                        
+                        if not existing_users.get('Users', []):
+                          # Try by email
+                          existing_users = identity_store.list_users(
+                            IdentityStoreId=identity_store_id,
+                            Filters=[
+                              {
+                                'AttributePath': 'Emails.Value',
+                                'AttributeValue': email
+                              }
+                            ]
+                          )
+                        
+                        if existing_users.get('Users', []):
+                          user = existing_users['Users'][0]
+                          user_id = user['UserId']
+                          logger.info(f"Found existing user {user_name} with ID {user_id}")
+                          cfnresponse.send(event, context, cfnresponse.SUCCESS, 
+                                          {'UserId': user_id, 'UserName': user_name})
+                          return
+                      except Exception as inner_e:
+                        logger.warning(f"Error finding existing user after creation failure: {str(inner_e)}")
+                    
                     logger.warning(f"Error creating user (retry {retry_count}): {str(e)}")
                     retry_count += 1
                     if retry_count < max_retries:
@@ -399,7 +357,7 @@ Resources:
   AddUserToGroupFunction:
     Type: AWS::Lambda::Function
     Properties:
-      Runtime: python3.9
+      Runtime: python3.12
       Handler: index.handler
       Role: !GetAtt IdentityCenterLambdaRole.Arn
       Code:
@@ -408,6 +366,7 @@ Resources:
           import cfnresponse
           import logging
           import time
+          import botocore
           
           logger = logging.getLogger()
           logger.setLevel(logging.INFO)
@@ -421,6 +380,32 @@ Resources:
                 group_id = event['ResourceProperties']['GroupId']
                 user_id = event['ResourceProperties']['UserId']
                 
+                # First check if the user is already a member of the group
+                identity_store = boto3.client('identitystore')
+                
+                try:
+                  # List group memberships for the user
+                  logger.info(f"Checking if user {user_id} is already a member of group {group_id}")
+                  
+                  # Unfortunately, there's no direct API to check if a user is in a group
+                  # We'll have to list all members of the group and check
+                  paginator = identity_store.get_paginator('list_group_memberships')
+                  
+                  for page in paginator.paginate(
+                    IdentityStoreId=identity_store_id,
+                    GroupId=group_id
+                  ):
+                    for membership in page.get('GroupMemberships', []):
+                      if membership.get('MemberId', {}).get('UserId') == user_id:
+                        membership_id = membership['MembershipId']
+                        logger.info(f"User {user_id} is already a member of group {group_id} with membership ID {membership_id}")
+                        cfnresponse.send(event, context, cfnresponse.SUCCESS, 
+                                        {'MembershipId': membership_id})
+                        return
+                except Exception as e:
+                  logger.warning(f"Error checking existing group membership: {str(e)}")
+                  # Continue with creation attempt
+                
                 # Add retry logic for adding user to group
                 max_retries = 3
                 retry_count = 0
@@ -428,7 +413,6 @@ Resources:
                 
                 while retry_count < max_retries and not success:
                   try:
-                    identity_store = boto3.client('identitystore')
                     response = identity_store.create_group_membership(
                       IdentityStoreId=identity_store_id,
                       GroupId=group_id,
@@ -443,7 +427,16 @@ Resources:
                     
                     cfnresponse.send(event, context, cfnresponse.SUCCESS, 
                                     {'MembershipId': membership_id})
-                  except Exception as e:
+                  except botocore.exceptions.ClientError as e:
+                    error_code = e.response.get('Error', {}).get('Code', '')
+                    if error_code == 'ResourceAlreadyExistsException' or 'already exists' in str(e).lower():
+                      # User is already a member of the group
+                      # We'll just return success
+                      logger.info(f"User {user_id} is already a member of group {group_id}")
+                      cfnresponse.send(event, context, cfnresponse.SUCCESS, 
+                                      {'MembershipId': f"{user_id}-{group_id}"})
+                      return
+                    
                     logger.warning(f"Error adding user to group (retry {retry_count}): {str(e)}")
                     retry_count += 1
                     if retry_count < max_retries:
@@ -499,6 +492,231 @@ Resources:
       GroupId: !GetAtt AdminGroup.GroupId
       UserId: !GetAtt AdminUser.UserId
 
+  # Permission Set for AWS Transform Admins
+  AWSTransformAdminPermissionSet:
+    Type: AWS::SSO::PermissionSet
+    Properties:
+      InstanceArn: !Sub 'arn:aws:sso:::instance/${IdentityCenterInstanceId}'
+      Name: 'AWSTransformAdminAccess'
+      Description: Permission set for AWS Transform administrators
+      SessionDuration: PT8H
+      InlinePolicy: |
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "transform:GetConnector",
+                "transform:AssociateConnectorResource",
+                "transform:RejectConnector"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:GetBucketPublicAccessBlock",
+                "s3:GetAccountPublicAccessBlock"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "iam:CreateRole",
+                "iam:AttachRolePolicy",
+                "iam:PassRole"
+              ],
+              "Resource": "arn:aws:iam::*:role/service-role/AWSTransform-*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "iam:CreatePolicy"
+              ],
+              "Resource": "arn:aws:iam::*:policy/service-role/AWSTransform-*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "transform:ListProfiles"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "organizations:ListAWSServiceAccessForOrganization",
+                "organizations:DescribeOrganization"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "sso:ListApplications",
+                "sso:ListInstances",
+                "sso:DescribeRegisteredRegions",
+                "sso:GetSharedSsoConfiguration",
+                "sso:DescribeInstance",
+                "sso:DescribeApplication",
+                "sso:GetSSOStatus",
+                "sso:CreateApplicationAssignment",
+                "sso:DeleteApplicationAssignment",
+                "sso:ListApplicationAssignments"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "sso-directory:CreateUser",
+                "sso-directory:DescribeUsers",
+                "sso-directory:DescribeGroups",
+                "sso-directory:SearchGroups",
+                "sso-directory:SearchUsers",
+                "sso-directory:DescribeGroup",
+                "sso-directory:DescribeUser",
+                "sso-directory:DescribeDirectory"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "identitystore:CreateUser",
+                "identitystore:ListUsers",
+                "identitystore:ListGroups"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "sso:ListInstances",
+                "sso:CreateInstance",
+                "sso:CreateApplication",
+                "sso:PutApplicationAuthenticationMethod",
+                "sso:PutApplicationGrant",
+                "sso:PutApplicationAssignmentConfiguration",
+                "sso:ListApplications",
+                "sso:GetSharedSsoConfiguration",
+                "sso:DescribeInstance",
+                "sso:PutApplicationAccessScope",
+                "sso:DescribeApplication",
+                "sso:DeleteApplication",
+                "sso:UpdateApplication",
+                "sso:DescribeRegisteredRegions",
+                "sso:GetSSOStatus"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "sso-directory:GetUserPoolInfo",
+                "sso-directory:DescribeUsers",
+                "sso-directory:DescribeGroups",
+                "sso-directory:SearchGroups",
+                "sso-directory:SearchUsers",
+                "sso-directory:DescribeDirectory"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "organizations:DescribeAccount",
+                "organizations:DescribeOrganization",
+                "organizations:ListAWSServiceAccessForOrganization",
+                "organizations:DisableAWSServiceAccess",
+                "organizations:EnableAWSServiceAccess"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "kms:ListAliases",
+                "kms:CreateGrant",
+                "kms:Encrypt",
+                "kms:Decrypt",
+                "kms:GenerateDataKey*",
+                "kms:RetireGrant",
+                "kms:DescribeKey"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "iam:CreateServiceLinkedRole"
+              ],
+              "Resource": "arn:aws:iam::*:role/aws-service-role/transform.amazonaws.com/AWSServiceRoleForAWSTransform"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "transform:UpdateProfile",
+                "transform:ListProfiles",
+                "transform:CreateProfile",
+                "transform:DeleteProfile"
+              ],
+              "Resource": "*"
+            }
+          ]
+        }
+
+  # Permission Set for AWS Transform Users  
+  AWSTransformUserPermissionSet:
+    Type: AWS::SSO::PermissionSet
+    Properties:
+      InstanceArn: !Sub 'arn:aws:sso:::instance/${IdentityCenterInstanceId}'
+      Name: 'AWSTransformUserAccess'
+      Description: Permission set for AWS Transform users
+      SessionDuration: PT8H
+      InlinePolicy: |
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "ViewOwnUserInfo",
+              "Effect": "Allow",
+              "Action": [
+                "iam:GetUserPolicy",
+                "iam:ListGroupsForUser",
+                "iam:ListAttachedUserPolicies",
+                "iam:ListUserPolicies",
+                "iam:GetUser"
+              ],
+              "Resource": "arn:aws:iam::*:user/*"
+            },
+            {
+              "Sid": "NavigateInConsole",
+              "Effect": "Allow",
+              "Action": [
+                "iam:GetGroupPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetPolicy",
+                "iam:ListAttachedGroupPolicies",
+                "iam:ListGroupPolicies",
+                "iam:ListPolicyVersions",
+                "iam:ListPolicies",
+                "iam:ListUsers"
+              ],
+              "Resource": "*"
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "transform:ListProfiles"
+              ],
+              "Resource": "*"
+            }
+          ]
+        }
+
 Outputs:
   IdentityCenterInstanceId:
     Description: ID of the IAM Identity Center instance
@@ -530,20 +748,4 @@ Outputs:
     Export:
       Name: TransformAdminUserId
       
-  TransformAdminPolicyArn:
-    Description: ARN of the AWS Transform Admin Policy
-    Value: !Ref TransformAdminPolicy
-    Export:
-      Name: TransformAdminPolicyArn
-      
-  TransformUserPolicyArn:
-    Description: ARN of the AWS Transform User Policy
-    Value: !Ref TransformUserPolicy
-    Export:
-      Name: TransformUserPolicyArn
-      
-  TransformServiceRoleArn:
-    Description: ARN of the AWS Transform Service Role
-    Value: !GetAtt TransformServiceRole.Arn
-    Export:
-      Name: TransformServiceRoleArn
+

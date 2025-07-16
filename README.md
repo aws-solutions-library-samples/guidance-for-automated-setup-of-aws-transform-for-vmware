@@ -56,7 +56,7 @@ VPCs created by AWS Transform match your on-premises network segments, providing
 Below is the Reference architecture for the guidance showing the core and supporting AWS services: 
 
 <p align="center">
-<img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMware">
+<img src="assets/aws_transform_vmware_ref-arch1.jpg" alt="Reference Architecture of AWS Transform for VMWare">
 <br/>
 Figure 1. Automated Setup of AWS Transform for VMware -  Environment setup and Access configuration.
 </p>
@@ -70,7 +70,7 @@ A full list of supported AWS Regions can be found [here](https://docs.aws.amazon
 <br/>6. As part of AWS Transform, the Wave Planning capability uses Graph Neural Networks to analyze application dependencies and plan migration waves.
 <br/>
 <p align="center">
-<img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMware">
+<img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMWare">
 <br/>
 Figure 2. Automated Setup of AWS Transform for VMware - Data collection and initial migration planning.
 </p>
@@ -88,7 +88,7 @@ Figure 2. Automated Setup of AWS Transform for VMware - Data collection and init
 
 <br/>
 <p align="center">
-<img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMware">
+<img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMWare">
 Figure 3. Automated Setup of AWS Transform for VMware - Workload migration and network conversion to AWS
 <br/>
 </p>
@@ -105,7 +105,7 @@ Figure 3. Automated Setup of AWS Transform for VMware - Workload migration and n
 
 | **AWS Service** | **Role** | **Description** |
 |-----------------|----------|-----------------|
-| [Amazon Transform for VMware](https://aws.amazon.com/transform/vmware) | Core service | Agentic AI service for modernizing VMware workloads at scale |
+| [Amazon Transform for VMWare](https://aws.amazon.com/transform/vmware) | Core service | Agentic AI service for modernizing VMware workloads at scale |
 | [Amazon Elastic Compute Cloud](https://aws.amazon.com/ec2/) (EC2) | Core service | Provides the compute instances for EKS worker nodes and runs containerized applications. |
 | [Amazon Virtual Private Cloud](https://aws.amazon.com/vpc/) (VPC) | Core Service | Creates an isolated network environment with public and private subnets across multiple Availability Zones. |
 | [Amazon Application Discovery Service](https://aws.amazon.com/application-discovery/) | Supporting service | Discivers on-premises server inventory and behavior to plan cloud migrations |
@@ -149,7 +149,7 @@ We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/la
 
 ### Sample Cost Table 
 
-As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) `us-east-1` is nearly free. 
+As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) `us-east-1` is pretty much free. 
 
 >NOTE: The table below covers the cost of using AWS Transform for VMware migrations, not the cost of running EC2 and VPC resources that will be created as a result of executing a migration.
 
@@ -215,18 +215,19 @@ The workspace in which you create a job determines the AWS Region of the job. To
 4. Start by running the first shell script. This creates an AWS Organization with all features enabled.
 
     Pass in the following paramters to the second shell script:
-    <br/>
-    - STACK_NAME: {name of CloudFormation stack}.
-    - TEMPLATE_PATH: {path to `phase2-idc.yaml`}.
 
-    BASH:
+    - STACK_NAME: name of cloudformation stack.
+    - TEMPLATE_PATH: path to `phase2-idc.yaml`.
+
+    BASH
 
     ```bash
     source % ./deploy-phase1.sh
     Enter stack name [aws-org-setup]: aws-org-setup-example
     Enter template path [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml]:
     ```
-    PowerShell:
+
+    PowerShell
 
     ```powershell
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase1.ps1
@@ -236,43 +237,43 @@ The workspace in which you create a job determines the AWS Region of the job. To
 
     >Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.
 
-5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (wait a few minutes for the changes to propagate) as shown below:
+5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (Wait a few minutes for the changes to propagate)
 <p align="center">
 <img src="assets/enable_identity_center.png" alt="Enable IAM Identity Center">
 <br/>    
 Figure 2. Enable an Organization instance of IAM Identity Center    
 </p>
 
-### Phase 2: Set up IAM Identity Center for AWS Transform for VMware
+### Phase 2: Set up IAM Identity Center and AWS Transform for VMWare
 1. After enabling IAM Identity Center manually and waiting for updates to propagate, run the second BASH script
-    Pass in the following parameters using the bash script:
-   <br/>
-      <br/>  STACK_NAME: {name of cloudformation stack}.
-      <br/>  TEMPLATE_PATH: {path to phase2 yaml}.
-      <br/>  ACCOUNT_NUMBER: {AWS account number}.
-      <br/>  IDENTITY_CENTER_ID: {AWS Identity Center ID}.
-      <br/>  ADMIN_EMAIL: {Email for admin user provisioned by script}.
 
-    BASH:
+    Pass in the following parameters using the bash script:
+        STACK_NAME: name of cloudformation stack.
+        TEMPLATE_PATH: path to phase2 yaml.
+        ACCOUNT_NUMBER: AWS account number.
+        IDENTITY_CENTER_ID: AWS Identity Center ID.
+        ADMIN_EMAIL: Email for admin user provisioned by script.
+
+    BASH
 
     ```bash
         source % ./deploy-phase2.sh
         Enter stack name [aws-transform-setup]:
         Enter template path: [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase2-idc.yaml]:
-        Enter AWS account number: 1234567XXXXX
+        Enter AWS account number: 123456789012
         Enter admin email address: admin@amazon.com
         Enter Identity Center ID: ssoins-1234a123b1d5ab3f
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
         Found Identity Store ID: d-40338374bc
     ```
 
-    PowerShell:
+    PowerShell
 
     ```powershell
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase2.ps1
         Enter stack name [aws-transform-setup]:
         Enter template path [phase2-idc.yaml]:
-        Enter AWS account number: 1234567XXXXX
+        Enter AWS account number: 123456789012
         Enter admin email address: admin@amazon.com 
         Enter Identity Center ID: ssoins-1234a123b1d5ab3f
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
@@ -302,28 +303,63 @@ Figure 3. Guidance Cloud Formation Stack Deployment Status
 Figure 4. Verify Identity Center Groups    
 </p>
 
+* Open Identity Center and select Multi Account Permissions -> AWS accounts. Select Assign Users or Groups 
+<p align="center">
+<img src="assets/idc_awsaccounts.png" alt="idc aws accounts">
+<br/>
+Figure 5. IDC AWS Accounts Select Assign Users or Groups 
+</p>
+
+* Open Identity Center and select Multi Account Permissions -> AWS accounts. Select Assign Users or Groups 
+<p align="center">
+<img src="assets/idc_awsaccounts.png" alt="idc aws accounts">
+<br/>
+Figure 6. IDC AWS Accounts Select Assign Users or Groups 
+</p>
+
+* Select Admin IDC Group
+<p align="center">
+<img src="assets/select_group.png" alt="select group">
+<br/>
+Figure 7. Select Admin IDC Group
+</p>
+
+* Select Admin Permission Set
+<p align="center">
+<img src="assets/select_set.png" alt="select set">
+<br/>
+Figure 8. Select Admin IDC Permission Set 
+</p>
+
+* Submit. Repeat for User group/permission set. 
+<p align="center">
+<img src="assets/review_and_submit.png" alt="review and submit">
+<br/>
+Figure 9. Submit. Repeat for User IDC Group and Permission Set
+</p>
+
+
 * Review the admin group and verify created user
 <p align="center">
 <img src="assets/admin_user.png" alt="admin user">
 <br/>
-Figure 5. View the Administrators Group and Verify Created User
+Figure 10. View the Administrators Group and Verify Created User
 </p>
 
 * Make sure the groups can be added to AWS Transform
 <p align="center">
 <img src="assets/transform_group.png" alt="transform group">
 <br/>
-Figure 6. Verify that IDC groups can be added to AWS Transform
+Figure 11. Verify that IDC groups can be added to AWS Transform
 </p>
 
 * Make sure the start URL can be accessed by Admin user
 <p align="center">
 <img src="assets/transform_start.png" alt="transform start">
 <br/>
-Figure 7. Verify that Start URL can be accessed by Administrator User   
+Figure 12. Verify that Start URL can be accessed by Administrator User   
 </p>
 
-At this point all of the pre-requisites are complete and you are ready now to use AWS Transform for VMware.  
 
 ## Running the Guidance
 
@@ -332,10 +368,6 @@ At this point all of the pre-requisites are complete and you are ready now to us
 Please feel free to explore our self-guided [demo](https://aws.storylane.io/share/qye0se68an9i) to learn how AWS Transform for VMware Service streamlines your VMware workload modernization. See how it automates key processes including application discovery, dependency mapping, network translation, wave planning, and server migration—all while optimizing Amazon EC2 instance selection for peak performance:
 
 **https://aws.storylane.io/share/qye0se68an9i**
-
-Please see the [official documentation](https://docs.aws.amazon.com/transform/latest/userguide/transform-app-vmware.html) of AWS Transform for VMware for details of using the Service.
-
-### Troubleshooting 
 
 ## Cleanup
 
@@ -353,7 +385,7 @@ Figure 8. Deleting Guidance Cloud Formation Stacks
 ## Authors 
 
 Pranav Kumar, GenAI Labs Builder SA <br/>
-Patrick Kremer, Sr. Specialist SA, VMware<br/>
+/qPatrick Kremer, Sr. Specialist SA, VMWare<br/>
 Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
 Daniel Zilberman, Sr. Specialist SA, AWS Solutions 
