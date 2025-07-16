@@ -88,7 +88,7 @@ Figure 2. Automated Setup of AWS Transform for VMware - Data collection and init
 
 <br/>
 <p align="center">
-<img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMWare">
+<img src="assets/aws_transform_vmware_ref-arch3.jpg" alt="Reference Architecture of AWS Transform for VMware">
 Figure 3. Automated Setup of AWS Transform for VMware - Workload migration and network conversion to AWS
 <br/>
 </p>
@@ -149,7 +149,7 @@ We recommend creating a [Budget](https://docs.aws.amazon.com/cost-management/la
 
 ### Sample Cost Table 
 
-As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) `us-east-1` is pretty much free. 
+As of June 2025, the cost for running this Guidance with the default settings in the default AWS Region (US East 1 - N. Virginia) `us-east-1` is nearly free. 
 
 >NOTE: The table below covers the cost of using AWS Transform for VMware migrations, not the cost of running EC2 and VPC resources that will be created as a result of executing a migration.
 
@@ -214,20 +214,18 @@ The workspace in which you create a job determines the AWS Region of the job. To
 
 4. Start by running the first shell script. This creates an AWS Organization with all features enabled.
 
-    Pass in the following paramters to the second shell script:
+    <br/>- STACK_NAME: {name of CloudFormation stack}.
+    <br/>- TEMPLATE_PATH: {path to `phase2-idc.yaml`}.
 
-    - STACK_NAME: name of cloudformation stack.
-    - TEMPLATE_PATH: path to `phase2-idc.yaml`.
-
-    BASH
+    BASH:
 
     ```bash
     source % ./deploy-phase1.sh
-    Enter stack name [aws-org-setup]: aws-org-setup-example
+    Enter stack name [aws-org-setup]: aws-org-setup
     Enter template path [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml]:
     ```
 
-    PowerShell
+    PowerShell:
 
     ```powershell
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase1.ps1
@@ -237,24 +235,25 @@ The workspace in which you create a job determines the AWS Region of the job. To
 
     >Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.
 
-5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (wait a few minutes for the changes to propagate)
+5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (wait a few minutes for the changes to propagate), as shown below:
 <p align="center">
 <img src="assets/enable_identity_center.png" alt="Enable IAM Identity Center">
 <br/>    
 Figure 2. Enable an Organization instance of IAM Identity Center    
 </p>
 
-### Phase 2: Set up IAM Identity Center and AWS Transform for VMWare
+### Phase 2: Set up IAM Identity Center for AWS Transform for VMware
 1. After enabling IAM Identity Center manually and waiting for updates to propagate, run the second BASH script
 
     Pass in the following parameters using the bash script:
-        STACK_NAME: name of cloudformation stack.
-        TEMPLATE_PATH: path to phase2 yaml.
-        ACCOUNT_NUMBER: AWS account number.
-        IDENTITY_CENTER_ID: AWS Identity Center ID.
-        ADMIN_EMAIL: Email for admin user provisioned by script.
+     <br/>
+      <br/>  STACK_NAME: {name of cloudformation stack}.
+      <br/>  TEMPLATE_PATH: {path to phase2 yaml}.
+      <br/>  ACCOUNT_NUMBER: {AWS account number}.
+      <br/>  IDENTITY_CENTER_ID: {AWS Identity Center ID}.
+      <br/>  ADMIN_EMAIL: {Email for admin user provisioned by script}.
 
-    BASH
+    BASH:
 
     ```bash
         source % ./deploy-phase2.sh
@@ -267,7 +266,7 @@ Figure 2. Enable an Organization instance of IAM Identity Center
         Found Identity Store ID: d-40338374bc
     ```
 
-    PowerShell
+    PowerShell:
 
     ```powershell
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase2.ps1
@@ -360,6 +359,7 @@ Figure 11. Verify that IDC groups can be added to AWS Transform
 Figure 12. Verify that Start URL can be accessed by Administrator User   
 </p>
 
+At this point all of the pre-requisites are complete and you are ready now to use AWS Transform for VMware.
 
 ## Running the Guidance
 
@@ -368,6 +368,8 @@ Figure 12. Verify that Start URL can be accessed by Administrator User
 Please feel free to explore our self-guided [demo](https://aws.storylane.io/share/qye0se68an9i) to learn how AWS Transform for VMware Service streamlines your VMware workload modernization. See how it automates key processes including application discovery, dependency mapping, network translation, wave planning, and server migration—all while optimizing Amazon EC2 instance selection for peak performance:
 
 **https://aws.storylane.io/share/qye0se68an9i**
+
+Please see the [AWS official documentation](https://docs.aws.amazon.com/transform/latest/userguide/transform-app-vmware.html) of AWS Transform for VMware for details of using the Service.
 
 ### Troubleshooting
 
@@ -397,10 +399,9 @@ and make necessary updates. In this example the issue is resolved by adding nece
 
 ## Cleanup
 
-When you no longer need to use the guidance, you should delete the AWS resources deployed by it in order to prevent ongoing charges for their usage.
+When you no longer need to use the guidance, you should delete the AWS resources deployed in order to prevent ongoing charges for their usage.
 
-In the AWS Management Console, navigate to CloudFormation and locate the 2 guidance stacks deployed.
-Starting with the most recent stack (not including any nested stacks), select the stack and click `Delete` button:
+In the AWS Management Console, navigate to CloudFormation and locate the 2 guidance stacks deployed (typcally named `aws-org-setup` and `aws-transform-setup` as shown in the Deployment section above). Starting with the most recent stack (not including any nested stacks), select the stack and click `Delete` button:
 
 <p align="center">
 <img src="assets/cleanup_cfn.png" alt="delete stack">
@@ -408,10 +409,12 @@ Starting with the most recent stack (not including any nested stacks), select th
 Figure 15. Deleting Guidance Cloud Formation Stacks    
 </p>
 
+When both stacks are successfully deleted, the corresponding AWS resources should be deleted as well.
+ 
 ## Authors 
 
 Pranav Kumar, GenAI Labs Builder SA <br/>
-Patrick Kremer, Sr. Specialist SA, VMWare<br/>
+Patrick Kremer, Sr. Specialist SA, VMware<br/>
 Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
 Daniel Zilberman, Sr. Specialist SA, AWS Solutions 
