@@ -371,7 +371,7 @@ Please feel free to explore our self-guided [demo](https://aws.storylane.io/shar
 
 ### Troubleshooting
 
-In case when either of the guidance deployment phases described above fail, you should start troubleshooting their deployment from the CloudFormation console that would show the failed step in the "Events" tab as illustrated in the xample below:
+In case when either of the guidance deployment phases described above fail, you should start troubleshooting their deployment from the CloudFormation console that would show the failed step in the "Events" tab as illustrated in the example below:
 
 <p align="center">
 <img src="assets/phase2_stack_creation_failed.jpg" alt="Phase 2 Deployment failed">
