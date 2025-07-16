@@ -6,13 +6,13 @@
     - [Architecture](#architecture)
     - [Services in this guidance](#aws-services-in-this-guidance)
     - [Cost](#cost)
-1. [Prerequisites](#prerequisites)
+2. [Prerequisites](#prerequisites)
     - [Operating System](#operating-system)
-1. [Deployment Steps](#deployment-steps)
-1. [Deployment Validation](#deployment-validation)
-1. [Running the Guidance](#running-the-guidance)
-1. [Cleanup](#cleanup)
-1. [Authors](#authors-optional)
+3. [Deployment Steps](#deployment-steps)
+4. [Deployment Validation](#deployment-validation)
+5. [Running the Guidance](#running-the-guidance)
+6. [Cleanup](#cleanup)
+7. [Authors](#authors-optional)
 
 ## Overview
 
@@ -237,7 +237,7 @@ The workspace in which you create a job determines the AWS Region of the job. To
 
     >Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.
 
-5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (Wait a few minutes for the changes to propagate)
+5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (wait a few minutes for the changes to propagate)
 <p align="center">
 <img src="assets/enable_identity_center.png" alt="Enable IAM Identity Center">
 <br/>    
@@ -260,7 +260,7 @@ Figure 2. Enable an Organization instance of IAM Identity Center
         source % ./deploy-phase2.sh
         Enter stack name [aws-transform-setup]:
         Enter template path: [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase2-idc.yaml]:
-        Enter AWS account number: 123456789012
+        Enter AWS account number: 1234567XXXXXX
         Enter admin email address: admin@amazon.com
         Enter Identity Center ID: ssoins-1234a123b1d5ab3f
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
@@ -273,7 +273,7 @@ Figure 2. Enable an Organization instance of IAM Identity Center
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase2.ps1
         Enter stack name [aws-transform-setup]:
         Enter template path [phase2-idc.yaml]:
-        Enter AWS account number: 123456789012
+        Enter AWS account number: 1234567XXXXXXX
         Enter admin email address: admin@amazon.com 
         Enter Identity Center ID: ssoins-1234a123b1d5ab3f
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
@@ -282,7 +282,7 @@ Figure 2. Enable an Organization instance of IAM Identity Center
     
     This script will:
     - Create IAM Identity Center groups and users
-    - Set up the necessary IAM policies for AWS Transform for both groups
+    - Set up the necessary IAM policies for AWS Transform for VMware for both groups
     - Create an Admin user using lambda functions in Identity Center based on a provided email
    
 >Note : The script uses the deployed Lambda functions to add the provided email account as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added via the AWS console following best practices.
@@ -369,6 +369,32 @@ Please feel free to explore our self-guided [demo](https://aws.storylane.io/shar
 
 **https://aws.storylane.io/share/qye0se68an9i**
 
+### Troubleshooting
+
+In case when either of the guidance deployment phases described above fail, you should start troubleshooting their deployment from the CloudFormation console that would show the failed step in the "Events" tab as illustrated in the xample below:
+
+<p align="center">
+<img src="assets/phase2_stack_creation_failed.jpg" alt="Phase 2 Deployment failed">
+<br/>
+Figure 13. Example of failed phase 2 Cloud Formation deployment   
+</p>
+
+To determine the root cause, follow the specified log group in the Cloud Watch service area from the error message and locate an event that contains an Error log message as illustrated below:
+<p align="center">
+<img src="assets/phase2_stack_creation_failed_cloudwatch_log_details.jpg" alt="Phase 2 Deployment failed log">
+<br/>
+Figure 14. Example of CloudWatch log with a message for failed phase 2 Cloud Formation deployment   
+</p>
+<br/>
+
+Then you can examine the detailed message and determine the root cause of an error:
+```bash
+"Data": {
+        "Error": "An error occurred (AccessDeniedException) when calling the CreateGroupMembership operation: User: arn:aws:sts::1234567XXXXXXX:assumed-role/aws-transform-setup-IdentityCenterLambdaRole-WriIgQEV4Wx9/aws-transform-setup-AddUserToGroupFunction-Z1ugUVrdHWr7 is not authorized to perform: identitystore:CreateGroupMembership on resource: arn:aws:identitystore:::group/6468d408-50b1-7045-2426-80200c9a324f because no identity-based policy allows the identitystore:CreateGroupMembership action, User: arn:aws:sts::354918380621:assumed-role/aws-transform-setup-IdentityCenterLambdaRole-WriIgQEV4Wx9/aws-transform-setup-AddUserToGroupFunction-Z1ugUVrdHWr7 is not authorized to perform: identitystore:CreateGroupMembership on resource: arn:aws:identitystore:::user/f458b4c8-f081-7031-262c-791e8a173a98 because no identity-based policy allows the identitystore:CreateGroupMembership action"
+    }
+```
+and make necessary updates. In this example the issue is resolved by adding necessary IAM permission policy. 
+
 ## Cleanup
 
 When you no longer need to use the guidance, you should delete the AWS resources deployed by it in order to prevent ongoing charges for their usage.
@@ -379,13 +405,13 @@ Starting with the most recent stack (not including any nested stacks), select th
 <p align="center">
 <img src="assets/cleanup_cfn.png" alt="delete stack">
 <br/>
-Figure 8. Deleting Guidance Cloud Formation Stacks    
+Figure 15. Deleting Guidance Cloud Formation Stacks    
 </p>
 
 ## Authors 
 
 Pranav Kumar, GenAI Labs Builder SA <br/>
-/qPatrick Kremer, Sr. Specialist SA, VMWare<br/>
+Patrick Kremer, Sr. Specialist SA, VMWare<br/>
 Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
 Daniel Zilberman, Sr. Specialist SA, AWS Solutions 
