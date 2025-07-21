@@ -195,9 +195,9 @@ The workspace in which you create a job determines the AWS Region of the job. To
 ## Security 
 
 Upon successful completion of both deployment phases, you will have established two IAM Identity Center permission sets and corresponding IDC groups with minimal baseline permissions derived from the official AWS Transform for VMware 
-documentation [here](https://docs.aws.amazon.com/transform/latest/userguide/security_iam_permissions.html). These permission sets provide only the essential access required for basic AWS Transform operations, following the principle of least privilege. 
+ [documentation](https://docs.aws.amazon.com/transform/latest/userguide/security_iam_permissions.html). These permission sets provide only the essential access required for basic AWS Transform operations, following the principle of least privilege. 
 
-Organizations will need to customize and expand these permissions based on their specific migration requirements, target AWS services, and operational needs. The barebones permissions serve as a secure foundation that should be augmented with additional policies for services like EC2, VPC, Application Migration Service, and other AWS resources that will be utilized during the actual VMware workload transformation and migration process. Users should refer to the AWS Transform security documentation [here] (https://docs.aws.amazon.com/transform/latest/userguide/security_iam_permissions.html) to understand the full scope of permissions that may be required for their particular use cases and migration scenarios.
+Organizations will need to customize and expand these permissions based on their specific migration requirements, target AWS services, and operational needs. The barebones permissions serve as a secure foundation that should be augmented with additional policies for services like EC2, VPC, Application Migration Service, and other AWS resources that will be utilized during the actual VMware workload transformation and migration process. Users should refer to the AWS Transform security [documentation](https://docs.aws.amazon.com/transform/latest/userguide/security_iam_permissions.html) to understand the full scope of permissions that may be required for their particular use cases and migration scenarios.
 
 ## Deployment Steps
 
