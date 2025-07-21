@@ -8,11 +8,12 @@
     - [Cost](#cost)
 2. [Prerequisites](#prerequisites)
     - [Operating System](#operating-system)
-3. [Deployment Steps](#deployment-steps)
-4. [Deployment Validation](#deployment-validation)
-5. [Running the Guidance](#running-the-guidance)
-6. [Cleanup](#cleanup)
-7. [Authors](#authors-optional)
+3. [Security](#security)
+4. [Deployment Steps](#deployment-steps)
+5. [Deployment Validation](#deployment-validation)
+6. [Running the Guidance](#running-the-guidance)
+7. [Cleanup](#cleanup)
+8. [Authors](#authors-optional)
 
 ## Overview
 
@@ -193,6 +194,8 @@ You can create AWS Transform workspaces in the following AWS Regions. These Regi
 The workspace in which you create a job determines the AWS Region of the job. To create a job in a different Region, you must use a different workspace that is in your desired Region.
 
 ## Security 
+
+When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility model](https://aws.amazon.com/compliance/shared-responsibility-model/) reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, the virtualization layer, and the physical security of the facilities in which the services operate. For more information about AWS security, visit [AWS Cloud Security](http://aws.amazon.com/security/).
 
 Upon successful completion of both deployment phases, you will have established two IAM Identity Center permission sets and corresponding IDC groups with minimal baseline permissions derived from the official AWS Transform for VMware 
  [documentation](https://docs.aws.amazon.com/transform/latest/userguide/security_iam_permissions.html). These permission sets provide only the essential access required for basic AWS Transform operations, following the principle of least privilege. 
