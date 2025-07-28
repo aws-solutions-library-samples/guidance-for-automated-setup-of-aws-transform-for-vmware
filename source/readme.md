@@ -18,4 +18,4 @@
 2. Go to the AWS Console and manually enable IAM Identity Center
 3. Wait a few minutes for the changes to propagate
 4. Run the Phase 2 script to complete the setup
-5. Create Permission Sets in Identity Center for AWS Transform Admins and AWS Transform Users and configure created policies, accounts and groups. 
+5. Assign Permission Sets and Groups to Account in Identity Center. 
