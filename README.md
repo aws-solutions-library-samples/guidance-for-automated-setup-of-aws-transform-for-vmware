@@ -19,15 +19,6 @@
 
 This Guidance provides an automated approach to deploying AWS Transform for VMware resources using Infrastructure as Code (IaC). It streamlines the setup process by automating the provisioning of required AWS services and security controls. The guidance accelerates time-to-value for organizations migrating VMware workloads while ensuring adherence to AWS best practices and security standards.
 
-Using the Guidance Video: 
-<p align="center">
-<video width="640" height="360" controls>
-  <source src="assets/guidanceVMwareTransform.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-</p>
-
-
 The journey begins with a thorough discovery and assessment of your on-premises VMware environment 
 1. **AWS Transform for VMware** supports multiple discovery methods: 
 
