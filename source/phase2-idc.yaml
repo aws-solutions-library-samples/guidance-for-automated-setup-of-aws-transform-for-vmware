@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: '(SO9459) Phase 2: CloudFormation template for AWS Transform with existing IAM Identity Center organization instance '
+Description: '(SO9459) Phase 2: CloudFormation template - AWS Transform for VMware with existing IAM Identity Center organization instance '
 
 Parameters:
   AccountNumber:

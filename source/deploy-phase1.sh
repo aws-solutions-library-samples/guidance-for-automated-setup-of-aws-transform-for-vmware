@@ -4,8 +4,11 @@
 read -p "Enter stack name [aws-org-setup]: " STACK_NAME
 STACK_NAME=${STACK_NAME:-aws-org-setup}
 
-read -p "Enter template path [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml]: " TEMPLATE_PATH
-TEMPLATE_PATH=${TEMPLATE_PATH:-/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml}
+#read -p "Enter template path [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml]: " TEMPLATE_PATH
+#TEMPLATE_PATH=${TEMPLATE_PATH:-/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml}
+read -p "Please enter Phase 1 template path [./phase1-aws-organizations.yaml]: " TEMPLATE_PATH
+TEMPLATE_PATH=${TEMPLATE_PATH:-./phase1-aws-organizations.yaml}
+echo "CHECKING TEMPLATE_PATH: $TEMPLATE_PATH"
 
 # Deploy the CloudFormation stack
 echo "Deploying Phase 1 CloudFormation stack: $STACK_NAME"
@@ -16,16 +19,16 @@ aws cloudformation create-stack \
 
 # Check if the deployment started successfully
 if [ $? -eq 0 ]; then
-  echo "Stack creation initiated successfully. Waiting for completion..."
+  echo "Phase 1 Stack creation initiated successfully. Waiting for completion..."
   
   # Wait for the stack to complete
   aws cloudformation wait stack-create-complete --stack-name $STACK_NAME
   
   if [ $? -eq 0 ]; then
-    echo "Stack creation completed successfully!"
+    echo "Phase 1 Stack creation completed successfully!"
     
     # Display stack outputs
-    echo "Stack outputs:"
+    echo "Phase 1 Stack outputs:"
     aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs" --output table
     
     echo ""
@@ -36,8 +39,8 @@ if [ $? -eq 0 ]; then
     echo "3. Wait for a few minutes for the changes to propagate"
     echo "4. Then run the Phase 2 deployment script"
   else
-    echo "Stack creation failed or timed out. Check the AWS CloudFormation console for details."
+    echo "Phase 1 Stack creation failed or timed out. Check the AWS CloudFormation console for details."
   fi
 else
-  echo "Failed to initiate stack creation. Check your AWS credentials and permissions."
+  echo "Failed to initiate Phase 1 stack creation. Check your AWS credentials and permissions."
 fi
