@@ -73,7 +73,7 @@ A full list of supported AWS Regions can be found [here](https://docs.aws.amazon
 <p align="center">
 <img src="assets/aws_transform_vmware_ref-arch2.jpg" alt="Reference Architecture of AWS Transform for VMWare">
 <br/>
-Figure 2. Automated Setup of AWS Transform for VMware - Data collection and initial migration planning.
+Figure 2. Automated Setup of AWS Transform for VMware - Data collection and initial Migration planning.
 </p>
 <br/>
 7. The AWS Migration Planning account hosts AWS Application Discovery Service (ADS) to collect, store, and process detailed infrastructure and application data for migration planning. The Discovery account provides secure isolation of collected infrastructure data and maintains separation of discovery and migration activities.
@@ -206,7 +206,7 @@ Organizations will need to customize and expand these permissions based on their
 
 ### Clone Guidance repository 
 1. Log in to your AWS account on your CLI/shell through your preferred authentication provider.
-2. Clone the guidance repository:
+2. Clone the guidance [code repository](https://github.com/aws-solutions-library-samples/guidance-for-automating-aws-transformations-vmware-deployment):
 
     ```bash
     git clone https://github.com/aws-solutions-library-samples/guidance-for-automating-aws-transformations-vmware-deployment
@@ -219,12 +219,12 @@ Organizations will need to customize and expand these permissions based on their
     
 ### Phase 1: Set up AWS Organizations
 
->Note : If you already have AWS Organizations enabled in your Management account, you can skip this Phase.
+>Note : If you already have AWS Organizations enabled in your Management account, you can skip this Phase and continue to Phase 2.
 
-4. Start by running the first shell script. This creates an AWS Organization with all features enabled.
+4. Start by running the first shell script which creates an AWS Organization with all features enabled.
 
-    <br/>- STACK_NAME: {name of CloudFormation stack}.
-    <br/>- TEMPLATE_PATH: {path to `phase2-idc.yaml`}.
+    <br/>  STACK_NAME: {name of CloudFormation stack}.
+    <br/>  TEMPLATE_PATH: {path to `phase1-aws-organizations.yaml`}.
 
     Linux BASH:
 
@@ -233,6 +233,18 @@ Organizations will need to customize and expand these permissions based on their
     ./deploy-phase1.sh
     Enter stack name [aws-org-setup]: aws-org-setup
     Enter template path [./phase1-aws-organizations.yaml]:
+    CHECKING TEMPLATE_PATH: ./phase1-aws-organizations.yaml
+    Deploying Phase 1 CloudFormation stack: aws-org-setup
+    Phase 1 Stack creation initiated successfully. Waiting for completion...
+    Phase 1 Stack creation completed successfully!
+    Phase 1 Stack outputs:
+    ...
+    AWS Organizations has been set up successfully.
+    IMPORTANT: Before proceeding to Phase 2, you need to:
+    1. Go to the AWS Console and navigate to IAM Identity Center
+    2. Enable IAM Identity Center manually
+    3. Wait for a few minutes for the changes to propagate
+    4. Then run the Phase 2 deployment script
     ```
 
     Windows PowerShell:
@@ -241,6 +253,7 @@ Organizations will need to customize and expand these permissions based on their
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase1.ps1
         Enter stack name [aws-org-setup]: 
         Please enter Phase 1 template path [phase1-aws-organizations.yaml]: 
+        ....
     ```
 
     >Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually entered to the CloudFormation YAML.
@@ -254,6 +267,7 @@ Figure 2. Enable an Organization instance of IAM Identity Center
 </p>
 
 ### Phase 2: Set up IAM Identity Center for AWS Transform for VMware
+
 1. After enabling IAM Identity Center manually and waiting for updates to propagate, run the Phase 2 installation script
 
     Pass in the following parameters using the bash script:
@@ -264,33 +278,27 @@ Figure 2. Enable an Organization instance of IAM Identity Center
       <br/>  IDENTITY_CENTER_ID: {AWS Identity Center ID}.
       <br/>  ADMIN_EMAIL: {Email for admin user provisioned by script}.
 
-<!--
-Enter stack name [aws-transform-setup]: aws-transform-setup
-Please enter Phase 2 template path [./phase2-idc.yaml]: ./phase2-idc.yaml
-./deploy-phase2.sh: line 10: TEMPLATE_PATH: './phase2-idc.yaml': syntax error: operand expected (error token is "'./phase2-idc.yaml'")
-TEMPLATE_PATH == ./phase2-idc.yaml
-Enter AWS account number: 354918XXXXXXXX
-Enter admin email address: dXXXXXX-isengard@amazon.com
-Enter Identity Center ID: ssoins-7223fb5fb97b5133
--->
 
 Linux BASH:
-
-    ```bash
+ ```bash
         #source % ./deploy-phase2.sh
         ./deploy-phase2.sh
         Enter stack name [aws-transform-setup]:
         Please enter Phase 2 template path: [./phase2-idc.yaml]:
         Enter AWS account number: 1234567XXXXXX
         Enter admin email address: admin@amazon.com
-        Enter Identity Center ID: ssoins-1234a123b1d5ab3f
-        Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
+        Enter Identity Center ID: ssoins-1234a123bXXXXXX
+        Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252XXXXXX...
         Found Identity Store ID: d-40338374bc
-    ```
+        Deploying Phase 2 CloudFormation stack: aws-transform-setup
+        Phase 2 Stack creation initiated successfully. Waiting for completion...
+        ...
+ ```
+
 <br/>
 Windows PowerShell:
 
-    ```powershell
+ ```powershell
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase2.ps1
         Enter stack name [aws-transform-setup]:
         Enter template path [phase2-idc.yaml]:
@@ -299,40 +307,41 @@ Windows PowerShell:
         Enter Identity Center ID: ssoins-1234a123b1d5ab3f
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
         Found Identity Store ID: d-40338374bc
-    ```
+ ```
 <br/>
 
-This script will:
-    - Create IAM Identity Center groups and users
-    - Set up the necessary IAM policies for AWS Transform for VMware for both groups
-    - Create an Admin user using lambda functions in Identity Center based on a provided email
+This CloudFormation will: <br/>
+ - Create IAM Identity Center groups and users
+ - Set up the necessary IAM policies for AWS Transform for VMware for both groups
+ - Create an Admin user using lambda functions in Identity Center based on a provided email
    
->Note: The script uses the deployed Lambda functions to add the provided email account as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added via the AWS console following best practices.
+>Note: The script/CloudFormation uses the deployed Lambda functions to add the provided email account as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added via the AWS console following best practices.
 
 ## Deployment Validation
 
-* Open CloudFormation in AWS console and verify the status of the stacks
+* Open CloudFormation in AWS console and verify the status of the stack(s) for Phase 1 (if applicable) and Phase 2 (IAM IDC configuration):
+
 <p align="center">
 <img src="assets/cfn_stack.png" alt="cfn stack status">
 <br/>
 Figure 3. Guidance Cloud Formation Stack Deployment Status    
 </p>
 
-* Open Identity Center and verify the created groups created:
+* Open IAM Identity Center and verify the created groups created:
 <p align="center">
 <img src="assets/idc_group.png" alt="idc groups">
 <br/>
 Figure 4. Verify Identity Center Groups    
 </p>
 
-* Open Identity Center and select Multi Account Permissions -> AWS accounts. Select Assign Users or Groups 
+* Open IAM Identity Center and select Multi Account Permissions -> AWS accounts. Select Assign Users or Groups 
 <p align="center">
 <img src="assets/idc_awsaccounts.png" alt="idc aws accounts">
 <br/>
-Figure 5. IDC AWS Accounts Select Assign Users or Groups 
+Figure 5. IAM IDC AWS Accounts Select Assign Users or Groups 
 </p>
 
-* Open Identity Center and select Multi Account Permissions -> AWS accounts. Select Assign Users or Groups 
+* Open IAM Identity Center and select Multi Account Permissions -> AWS accounts. Select Assign Users or Groups 
 <p align="center">
 <img src="assets/idc_awsaccounts.png" alt="idc aws accounts">
 <br/>
@@ -441,5 +450,6 @@ Patrick Kremer, Sr. Specialist SA, VMware<br/>
 Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
 Daniel Zilberman, Sr. Specialist SA, AWS Solutions 
+
 
 
