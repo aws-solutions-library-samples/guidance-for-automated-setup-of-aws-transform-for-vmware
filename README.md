@@ -265,7 +265,7 @@ Figure 2. Enable an Organization instance of IAM Identity Center
       <br/>  ADMIN_EMAIL: {Email for admin user provisioned by script}.
 
 <!--
-   Enter stack name [aws-transform-setup]: aws-transform-setup
+Enter stack name [aws-transform-setup]: aws-transform-setup
 Please enter Phase 2 template path [./phase2-idc.yaml]: ./phase2-idc.yaml
 ./deploy-phase2.sh: line 10: TEMPLATE_PATH: './phase2-idc.yaml': syntax error: operand expected (error token is "'./phase2-idc.yaml'")
 TEMPLATE_PATH == ./phase2-idc.yaml
@@ -274,7 +274,7 @@ Enter admin email address: dXXXXXX-isengard@amazon.com
 Enter Identity Center ID: ssoins-7223fb5fb97b5133
 -->
 
-   Linux BASH:
+Linux BASH:
 
     ```bash
         #source % ./deploy-phase2.sh
@@ -287,8 +287,8 @@ Enter Identity Center ID: ssoins-7223fb5fb97b5133
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
         Found Identity Store ID: d-40338374bc
     ```
-
-    Windows PowerShell:
+<br/>
+Windows PowerShell:
 
     ```powershell
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase2.ps1
@@ -300,13 +300,14 @@ Enter Identity Center ID: ssoins-7223fb5fb97b5133
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
         Found Identity Store ID: d-40338374bc
     ```
-    
-    This script will:
+<br/>
+
+This script will:
     - Create IAM Identity Center groups and users
     - Set up the necessary IAM policies for AWS Transform for VMware for both groups
     - Create an Admin user using lambda functions in Identity Center based on a provided email
    
->Note : The script uses the deployed Lambda functions to add the provided email account as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added via the AWS console following best practices.
+>Note: The script uses the deployed Lambda functions to add the provided email account as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added via the AWS console following best practices.
 
 ## Deployment Validation
 
@@ -440,4 +441,5 @@ Patrick Kremer, Sr. Specialist SA, VMware<br/>
 Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
 Daniel Zilberman, Sr. Specialist SA, AWS Solutions 
+
 
