@@ -206,46 +206,47 @@ Organizations will need to customize and expand these permissions based on their
 
 ### Clone Guidance repository 
 1. Log in to your AWS account on your CLI/shell through your preferred authentication provider.
-2. Clone the repository:
+2. Clone the guidance repository:
 
     ```bash
     git clone https://github.com/aws-solutions-library-samples/guidance-for-automating-aws-transformations-vmware-deployment
     ```
-
-### Phase 1: Set up AWS Organizations
-
->Note : If you already have AWS Organizations enabled in your Management account, you can skip Phase 1.
-
 3. Change directory to the source folder inside the guidance repository:
 
     ```bash
     cd guidance-for-automating-aws-transformations-vmware-deployment/source
     ```
+    
+### Phase 1: Set up AWS Organizations
+
+>Note : If you already have AWS Organizations enabled in your Management account, you can skip this Phase.
 
 4. Start by running the first shell script. This creates an AWS Organization with all features enabled.
 
     <br/>- STACK_NAME: {name of CloudFormation stack}.
     <br/>- TEMPLATE_PATH: {path to `phase2-idc.yaml`}.
 
-    BASH:
+    Linux BASH:
 
     ```bash
-    source % ./deploy-phase1.sh
+    #source % ./deploy-phase1.sh
+    ./deploy-phase1.sh
     Enter stack name [aws-org-setup]: aws-org-setup
-    Enter template path [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase1-aws-organizations.yaml]:
+    Enter template path [./phase1-aws-organizations.yaml]:
     ```
 
-    PowerShell:
+    Windows PowerShell:
 
     ```powershell
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase1.ps1
         Enter stack name [aws-org-setup]: 
-        Enter template path [phase1-aws-organizations.yaml]: 
+        Please enter Phase 1 template path [phase1-aws-organizations.yaml]: 
     ```
 
-    >Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually added to the CloudFormation YAML.
+    >Note : A Powershell script is available for Windows OS. Alternatively, the parameters can be manually entered to the CloudFormation YAML.
 
 5. After successful deployment, you will need to manually enable an organization instance of IAM Identity Center in the AWS Console (wait a few minutes for the changes to propagate), as shown below:
+
 <p align="center">
 <img src="assets/enable_identity_center.png" alt="Enable IAM Identity Center">
 <br/>    
@@ -253,30 +254,41 @@ Figure 2. Enable an Organization instance of IAM Identity Center
 </p>
 
 ### Phase 2: Set up IAM Identity Center for AWS Transform for VMware
-1. After enabling IAM Identity Center manually and waiting for updates to propagate, run the second BASH script
+1. After enabling IAM Identity Center manually and waiting for updates to propagate, run the Phase 2 installation script
 
     Pass in the following parameters using the bash script:
      <br/>
-      <br/>  STACK_NAME: {name of cloudformation stack}.
+      <br/>  STACK_NAME: {name of CloudFormation stack}.
       <br/>  TEMPLATE_PATH: {path to phase2 yaml}.
       <br/>  ACCOUNT_NUMBER: {AWS account number}.
       <br/>  IDENTITY_CENTER_ID: {AWS Identity Center ID}.
       <br/>  ADMIN_EMAIL: {Email for admin user provisioned by script}.
 
-    BASH:
+<!--
+Enter stack name [aws-transform-setup]: aws-transform-setup
+Please enter Phase 2 template path [./phase2-idc.yaml]: ./phase2-idc.yaml
+./deploy-phase2.sh: line 10: TEMPLATE_PATH: './phase2-idc.yaml': syntax error: operand expected (error token is "'./phase2-idc.yaml'")
+TEMPLATE_PATH == ./phase2-idc.yaml
+Enter AWS account number: 354918XXXXXXXX
+Enter admin email address: dXXXXXX-isengard@amazon.com
+Enter Identity Center ID: ssoins-7223fb5fb97b5133
+-->
+
+Linux BASH:
 
     ```bash
-        source % ./deploy-phase2.sh
+        #source % ./deploy-phase2.sh
+        ./deploy-phase2.sh
         Enter stack name [aws-transform-setup]:
-        Enter template path: [/guidance-for-automating-aws-transformations-vmware-deployment/source/phase2-idc.yaml]:
+        Please enter Phase 2 template path: [./phase2-idc.yaml]:
         Enter AWS account number: 1234567XXXXXX
         Enter admin email address: admin@amazon.com
         Enter Identity Center ID: ssoins-1234a123b1d5ab3f
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
         Found Identity Store ID: d-40338374bc
     ```
-
-    PowerShell:
+<br/>
+Windows PowerShell:
 
     ```powershell
         PS C:\git\aws\guidance-for-automating-aws-transformations-vmware-deployment\source> .\deploy-phase2.ps1
@@ -288,13 +300,14 @@ Figure 2. Enable an Organization instance of IAM Identity Center
         Retrieving Identity Store ID for IAM Identity Center instance ssoins-1234a252c3d5bd2f...
         Found Identity Store ID: d-40338374bc
     ```
-    
-    This script will:
+<br/>
+
+This script will:
     - Create IAM Identity Center groups and users
     - Set up the necessary IAM policies for AWS Transform for VMware for both groups
     - Create an Admin user using lambda functions in Identity Center based on a provided email
    
->Note : The script uses the deployed Lambda functions to add the provided email account as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added via the AWS console following best practices.
+>Note: The script uses the deployed Lambda functions to add the provided email account as an Admin in the created AWS Transform Admin group in AWS IAM Identity Center. Subsequent admins and users can be added via the AWS console following best practices.
 
 ## Deployment Validation
 
@@ -428,3 +441,5 @@ Patrick Kremer, Sr. Specialist SA, VMware<br/>
 Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
 Daniel Zilberman, Sr. Specialist SA, AWS Solutions 
+
+
