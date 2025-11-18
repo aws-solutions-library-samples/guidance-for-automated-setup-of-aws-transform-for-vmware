@@ -1,4 +1,4 @@
-# Guidance for Automated Setup of AWS Transform for VMware
+# Guidance for Automated Setup of AWS Transform 
 
 ## Table of Contents
 
@@ -17,7 +17,9 @@
 
 ## Overview
 
-This Guidance provides an automated approach to deploying AWS Transform for VMware resources using Infrastructure as Code (IaC). It streamlines the setup process by automating the provisioning of required AWS services and security controls. The guidance accelerates time-to-value for organizations migrating VMware workloads while ensuring adherence to AWS best practices and security standards.
+This Guidance provides an automated approach to deploying AWS Transform for VMware and .NET resources using Infrastructure as Code (IaC). It streamlines the setup process by automating the provisioning of required AWS services and security controls. The guidance accelerates time-to-value for organizations migrating VMware technology stack or Microsoft .NET framework based workloads while ensuring adherence to AWS best practices and security standards.
+
+## AWS Transform for VMware
 
 The journey begins with a thorough discovery and assessment of your on-premises VMware environment 
 1. **AWS Transform for VMware** supports multiple discovery methods: 
@@ -441,15 +443,21 @@ In the AWS Management Console, navigate to CloudFormation and locate the 2 guida
 Figure 15. Deleting Guidance Cloud Formation Stacks    
 </p>
 
-When both stacks are successfully deleted, the corresponding AWS resources should be deleted as well.
- 
+When both CloudFormation stacks are successfully deleted, the corresponding AWS resources should be deleted as well.
+
+## AWS Transform for .NET
+**TO DO: Add .NET related contents below** 
+
+
 ## Authors 
 
 Pranav Kumar, GenAI Labs Builder SA <br/>
 Patrick Kremer, Sr. Specialist SA, VMware<br/>
 Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
-Daniel Zilberman, Sr. Specialist SA, AWS Solutions 
+Daniel Zilberman, Sr. Specialist SA, AWS Solutions<br/>
+Jeremiah Webb, Associate SA, AWS Solutions
+
 
 
 
