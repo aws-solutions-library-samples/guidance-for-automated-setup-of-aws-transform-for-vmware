@@ -1,4 +1,4 @@
-# Guidance for Automated Setup of AWS Transform for VMware
+# Guidance for Automated Setup of AWS Transform on AWS
 
 ## Table of Contents
 
@@ -15,6 +15,7 @@
 7. [Cleanup](#cleanup)
 8. [Authors](#authors-optional)
 
+## AWS Transform for VMware
 ## Overview
 
 This Guidance provides an automated approach to deploying AWS Transform for VMware resources using Infrastructure as Code (IaC). It streamlines the setup process by automating the provisioning of required AWS services and security controls. The guidance accelerates time-to-value for organizations migrating VMware workloads while ensuring adherence to AWS best practices and security standards.
@@ -442,6 +443,10 @@ Figure 15. Deleting Guidance Cloud Formation Stacks
 </p>
 
 When both stacks are successfully deleted, the corresponding AWS resources should be deleted as well.
+
+## AWS Transform for .NET
+**TO DO: Add .NET related contents** 
+
  
 ## Authors 
 
@@ -449,7 +454,9 @@ Pranav Kumar, GenAI Labs Builder SA <br/>
 Patrick Kremer, Sr. Specialist SA, VMware<br/>
 Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
-Daniel Zilberman, Sr. Specialist SA, AWS Solutions 
+Daniel Zilberman, Sr. Specialist SA, AWS Solutions</br/>
+Jeremiah Webb, Associate SA, AWS Solutions
+
 
 
 
