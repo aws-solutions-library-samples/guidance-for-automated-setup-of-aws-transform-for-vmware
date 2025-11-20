@@ -19,6 +19,8 @@
 
 This Guidance provides an automated approach to deploying AWS Transform for VMware and .NET resources using Infrastructure as Code (IaC). It streamlines the setup process by automating the provisioning of required AWS services and security controls. The guidance accelerates time-to-value for organizations migrating VMware technology stack or Microsoft .NET framework based workloads while ensuring adherence to AWS best practices and security standards.
 
+**TO DO: Rework this page to be a generic landing page for AWS Transform with links to specific VMware and .NET READMEs**
+
 ## AWS Transform for VMware
 
 The journey begins with a thorough discovery and assessment of your on-premises VMware environment 
@@ -457,6 +459,7 @@ Kiran Reid, Sr. Specialist SA, AWS Transform<br/>
 Saood Usmani, Technical Lead, AWS Solutions<br/>
 Daniel Zilberman, Sr. Specialist SA, AWS Solutions<br/>
 Jeremiah Webb, Associate SA, AWS Solutions
+
 
 
 
